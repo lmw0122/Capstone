@@ -58,3 +58,9 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Rider
+.idea
+
+# Firebase API
+google-services.json
+google-services.json.meta

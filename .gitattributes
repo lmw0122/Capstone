@@ -1,0 +1,9 @@
+Assets/Plugins/Android/com.google.firebase.firebase-app-unity-7.1.0.aar filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Editor/network_request.exe filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Editor/generate_xml_from_google_services_json.exe filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/7.1.0/firebase-app-unity-7.1.0.srcaar filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-7_1_0.so filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-7_1_0.dll filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-7_1_0.bundle filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/iOS/Firebase/libFirebaseCppAuth.a filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/iOS/Firebase/libFirebaseCppApp.a filter=lfs diff=lfs merge=lfs -text
