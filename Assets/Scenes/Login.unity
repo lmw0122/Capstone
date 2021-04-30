@@ -1528,8 +1528,6 @@ MonoBehaviour:
   connInfoText: {fileID: 1822099474}
   loginBtn: {fileID: 1992400307}
   nicknameIF: {fileID: 706385688}
-  idIF: {fileID: 730488252}
-  passwordIF: {fileID: 1454956566}
 --- !u!4 &1493600354
 Transform:
   m_ObjectHideFlags: 0
