@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
 using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviourPunCallbacks
@@ -14,6 +17,12 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public Button loginBtn;
     [SerializeField]
     public InputField nicknameIF;
+    [SerializeField]
+    public InputField idIF;
+    [SerializeField]
+    public InputField passwordIF;
+
+    public static FirebaseAuth auth;
 
     public static string nickname = "";
     // Start is called before the first frame update
@@ -21,8 +30,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
-
-        
+        auth = FirebaseAuth.DefaultInstance;
         connInfoText.text = "마스터에 접속중";
     }
 
@@ -59,19 +67,54 @@ public class LoginManager : MonoBehaviourPunCallbacks
         else
         {
             nickname = nicknameIF.text;
-            if (PhotonNetwork.IsConnected)
+            auth.SignInWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
+            task =>
             {
-                connInfoText.text = "룸에 접속중";
-                PhotonNetwork.CreateRoom(nickname, new RoomOptions { MaxPlayers = 4 });
-                Debug.Log("방 만듬");
-                //PhotonNetwork.JoinRoom(nickname);
-                Debug.Log("방에 들어옴");
+                if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+                {
+                    if (PhotonNetwork.IsConnected)
+                    {
+                        connInfoText.text = "룸에 접속중";
+                        PhotonNetwork.CreateRoom(nickname, new RoomOptions { MaxPlayers = 4 });
+                        Debug.Log("방 만듬");
+                        //PhotonNetwork.JoinRoom(nickname);
+                        Debug.Log("방에 들어옴");
+                    }
+                    else
+                    {
+                        connInfoText.text = "마스터에 접속 실패";
+                        PhotonNetwork.ConnectUsingSettings();
+                    }
+                    Debug.Log(idIF.text + " 로 로그인 하셨습니다.");
+                }
+                else
+                {
+                    connInfoText.text = "ID와 비밀번호를 확인해 주세요.";
+                    Debug.Log("로그인에 실패하셨습니다.");
+                }
             }
-            else
-            {
-                connInfoText.text = "마스터에 접속 실패";
-                PhotonNetwork.ConnectUsingSettings();
-            }
+        );
+        }
+    }
+
+    public void Join()
+    {
+        if (idIF.text.Length != 0 && passwordIF.text.Length != 0)
+        {
+            auth.CreateUserWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
+             task =>
+             {
+                 if (!task.IsCanceled && !task.IsFaulted)
+                 {
+                     connInfoText.text = "회원가입 성공";
+                     Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
+                 }
+                 else
+                 {
+                     connInfoText.text = "회원가입 실패";
+                     Debug.Log("회원가입에 실패하셨습니다.");
+                 }
+             });
         }
     }
 

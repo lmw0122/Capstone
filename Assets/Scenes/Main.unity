@@ -1457,7 +1457,7 @@ MonoBehaviour:
   database: {fileID: 326078337}
   senderIF: {fileID: 365552514}
   textIF: {fileID: 278079450}
-  messagePrefab: {fileID: 0}
+  messagePrefab: {fileID: 6597223207961812695, guid: 1dcd7accf813f9f4a9f8f1d044d5d4aa, type: 3}
   messagesContainer: {fileID: 660327210}
 --- !u!114 &326078337
 MonoBehaviour:
@@ -2156,8 +2156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 0, y: 0.000014814}
+  m_SizeDelta: {x: 0, y: 145.02}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &660327211
 MonoBehaviour:
