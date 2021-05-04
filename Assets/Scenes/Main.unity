@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 6844348117152173720, guid: c79a7f88effaac24080db1285280c301, type: 3}
-  backButton: {fileID: 0}
+  backButton: {fileID: 1603184889}
 --- !u!4 &364850797
 Transform:
   m_ObjectHideFlags: 0
@@ -3709,7 +3709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1603184890
 RectTransform:
   m_ObjectHideFlags: 0

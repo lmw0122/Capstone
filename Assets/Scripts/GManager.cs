@@ -13,12 +13,16 @@ public class GManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        SpawnPlayer();
+        if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname) //내 방이 아니라면 뒤로가기 버튼을 활성화 한다.
+        {
+            backButton.SetActive(true);
+        }
+        SpawnPlayer(); //미리 만들어 놓은 player 프리팹을 소환하는 함수
     }
     private void SpawnPlayer ()
     {
         var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;
-        PhotonNetwork.Instantiate("Player", new Vector3(0,5f,0), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("Player", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
     }
 
     public override void OnLeftRoom()
@@ -30,12 +34,5 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         
     }
-    public override void OnJoinedRoom()
-    {
-        if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname)
-        {
-            backButton.SetActive(true);
-        }
-    }
-
+    
 }

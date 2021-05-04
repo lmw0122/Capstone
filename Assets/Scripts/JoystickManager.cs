@@ -29,7 +29,7 @@ public class JoystickManager : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     }
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("누르는 중");
+        
         Vector2 value = eventData.position - (Vector2)rect_Back.position;
 
         value = Vector2.ClampMagnitude(value, radius);
