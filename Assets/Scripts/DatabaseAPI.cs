@@ -18,12 +18,12 @@ public class DatabaseAPI : MonoBehaviour
 
     public void PostMessage(Message message, Action callback, Action<AggregateException> fallback)
     {
-        var messageJSON = StringSerializationAPI.Serialize(typeof(Message), message);
+        var messageJSON = StringSerializationAPI.Serialize(typeof(Message), message); //Message 타입을 JSON으로 파싱
         reference.Child("messages").Push().SetRawJsonValueAsync(messageJSON).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted) fallback(task.Exception);
             else callback();
-        });
+        }); //비동기 task로 DB에 추가
     }
 
     public void ListenForMessages(Action<Message> callback, Action<AggregateException> fallback)
