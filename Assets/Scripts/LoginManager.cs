@@ -140,30 +140,53 @@ public class LoginManager : MonoBehaviourPunCallbacks
         }
         if (idIF.text.Length != 0 && passwordIF.text.Length != 0) //ID와 비밀번호 모두 입력해야 실행
         {
+            //DB에 사용자 정보 추가하는 부분
+            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
+            reference = FirebaseDatabase.DefaultInstance.GetReference("users"); // users 위치 참조
+
+            reference.GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    connInfoText.text = "회원가입 실패";
+                    Debug.Log("회원가입에 실패하셨습니다.");
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
+                    foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
+                    {
+                        IDictionary users = (IDictionary)data.Value;
+                        if (users["name"].Equals(nicknameIF.text.ToString()))
+                        {
+                            connInfoText.text = "중복된 닉네임";
+                            Debug.Log(nicknameIF.text + "는 이미 있는 닉네임입니다.");
+                            return;
+                        }
+                    }
+                    Debug.Log("닉네임 사용 가능");
+                    auth.CreateUserWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread( task =>
+                    {
+                        if (!task.IsCanceled && !task.IsFaulted)
+                        {
+                            User user = new User(idIF.text, nicknameIF.text);
+                            string json = JsonUtility.ToJson(user);
+                            string key = reference.Push().Key;
+                            reference.Child(key).SetRawJsonValueAsync(json);
+
+                            connInfoText.text = "회원가입 성공";
+                            Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
+                        }
+                        else
+                        {
+                            connInfoText.text = "회원가입 실패";
+                            Debug.Log("회원가입에 실패하셨습니다.");
+                        }
+                    });
+                }
+            });
+
             
-            auth.CreateUserWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
-             task =>
-             {
-                 if (!task.IsCanceled && !task.IsFaulted)
-                 {
-                     //DB에 사용자 정보 추가하는 부분
-                     FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
-                     reference = FirebaseDatabase.DefaultInstance.RootReference;
-
-                     User user = new User(idIF.text, nicknameIF.text);
-                     string json = JsonUtility.ToJson(user);
-                     string key = reference.Child("users").Push().Key;
-                     reference.Child("users").Child(key).SetRawJsonValueAsync(json);
-
-                     connInfoText.text = "회원가입 성공";
-                     Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
-                 }
-                 else
-                 {
-                     connInfoText.text = "회원가입 실패";
-                     Debug.Log("회원가입에 실패하셨습니다.");
-                 }
-             });
         }
     }
 

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 5d93d8097e196d744ac26d546086abab
+=======
+guid: 60944456bb875b149a03ea0dff39516a
+>>>>>>> 620fb63 (닉네임 중복 체크 기능 추가)
 DefaultImporter:
   externalObjects: {}
   userData: 
