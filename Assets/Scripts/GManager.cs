@@ -13,10 +13,10 @@ public class GManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname) //내 방이 아니라면 뒤로가기 버튼을 활성화 한다.
-        {
-            backButton.SetActive(true);
-        }
+        //if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname) //내 방이 아니라면 뒤로가기 버튼을 활성화 한다.
+        //{
+        //    backButton.SetActive(true);
+        //}
         SpawnPlayer(); //미리 만들어 놓은 player 프리팹을 소환하는 함수
     }
     private void SpawnPlayer ()

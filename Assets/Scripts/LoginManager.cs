@@ -21,6 +21,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public static string nickname = ""; //닉네임이자 마이룸 마다의 방 이름이고 채팅할때 나오는 이름
     void Start()
     {
+        
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 접속
 
@@ -34,12 +35,13 @@ public class LoginManager : MonoBehaviourPunCallbacks
         
         connInfoText.text = "마스터에 연결됨";
         Debug.Log("마스터에 연결됨");
+        
         if(FriendButtonManager.fNickname != "") // 2번 경우, fNickname은 내가 마이룸에서 가고 싶은 친구 검색했을 때 그 닉네임
         {
             Debug.Log("친구방으로 이동중");
             PhotonNetwork.JoinRoom(FriendButtonManager.fNickname); //fNickname이름과 같은 방으로 이동
         }
-        if(nickname != "") // 1,3번 경우, 지금은 3번 경우 오류가 나서 다시 내방으로 안돌아가짐(webhook 관련해서 다시 코딩 예정)
+        if(nickname != "" && isFirst == false) // 1,3번 경우, 지금은 3번 경우 오류가 나서 다시 내방으로 안돌아가짐(webhook 관련해서 다시 코딩 예정)
         {
             Debug.Log("내방으로 이동중");
             PhotonNetwork.JoinRoom(nickname); // 내 닉네임 이름의 방으로 이동
@@ -63,12 +65,21 @@ public class LoginManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            
             nickname = nicknameIF.text;
             if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면
             {
+                isFirst = false;
                 connInfoText.text = "룸에 접속중";
-                PhotonNetwork.CreateRoom(nickname, new RoomOptions { MaxPlayers = 4 }); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
+                RoomOptions roomOptions = new RoomOptions();
+                roomOptions.IsOpen = true;
+                roomOptions.MaxPlayers = 4;
+                roomOptions.PlayerTtl = 1000000;
+                roomOptions.EmptyRoomTtl = 5000;
+   
+                PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions,null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                 Debug.Log("방 생성됨");
+               
             }
             else //마스터에 접속 안되어 있다면 
             {
@@ -91,8 +102,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
         
         if(nickname != "") // 해결중
         {
-            Debug.Log("돌아오기 실패");
-            
+            Debug.Log(message);
         }
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -100,6 +110,11 @@ public class LoginManager : MonoBehaviourPunCallbacks
         connInfoText.text = "방 생성 중";
 
         PhotonNetwork.CreateRoom(nicknameIF.text, new RoomOptions { MaxPlayers = 4 });
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("로비 도착");
     }
     // Update is called once per frame
     void Update()
