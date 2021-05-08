@@ -17,7 +17,6 @@ public class BackBtnManager : MonoBehaviour
     void Clickb()
     {
         FriendButtonManager.fNickname = "";
-        //PhotonNetwork.OpLeave(true);
 
     }
     // Update is called once per frame
