@@ -1,0 +1,13 @@
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.tgr filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.cubemap filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppDatabase.dll filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-6_15_2.so filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-6_15_2.dll filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-6_15_2.bundle filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Editor/network_request.exe filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Editor/generate_xml_from_google_services_json.exe filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.15.2/firebase-app-unity-6.15.2.srcaar filter=lfs diff=lfs merge=lfs -text
