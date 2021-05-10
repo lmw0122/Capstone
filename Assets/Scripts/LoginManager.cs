@@ -38,10 +38,11 @@ public class LoginManager : MonoBehaviourPunCallbacks
         public string name;
         public string image;
 
-        public User(string email, string name)
+        public User(string email, string name, string image)
         {
             this.email = email;
             this.name = name;
+            this.image = image;
         }
     }
     public DatabaseReference reference { get; set; }
@@ -111,7 +112,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
                         connInfoText.text = "룸에 접속중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                         Debug.Log("방 만듬");
-                        //PhotonNetwork.JoinRoom(nickname);
+                        isFirst = false;
                         Debug.Log("방에 들어옴");
                     }
                     else //마스터에 접속 안되어 있다면
@@ -169,13 +170,23 @@ public class LoginManager : MonoBehaviourPunCallbacks
                     {
                         if (!task.IsCanceled && !task.IsFaulted)
                         {
-                            User user = new User(idIF.text, nicknameIF.text);
-                            string json = JsonUtility.ToJson(user);
-                            string key = reference.Push().Key;
-                            reference.Child(key).SetRawJsonValueAsync(json);
+                            User user = new User(idIF.text, nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                            string userJson = JsonUtility.ToJson(user);
+                            string userKey = reference.Push().Key;
+                            reference.Child(userKey).SetRawJsonValueAsync(userJson);
 
                             connInfoText.text = "회원가입 성공";
                             Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
+
+                            reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms"); // chatRooms 위치 참조
+                            /*string chatRoomJson = JsonUtility.ToJson(chatRoom);
+                            string chatRoomKey = reference.Push().Key;
+                            reference.Child(chatRoomKey).SetRawJsonValueAsync(chatRoomJson);*/
+                            string chatRoomKey = reference.Push().Key;
+                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "description", chatRoomKey, "name"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
+                            var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
+                            reference.Child(chatRoomKey).SetRawJsonValueAsync(chatRoomJson);
+                            Debug.Log("채팅방 생성 완료");
                         }
                         else
                         {
@@ -200,8 +211,9 @@ public class LoginManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinRoomFailed(short returnCode, string message) // 방에 들어가는걸 실패했을 경우
     {
-        
-        if(nickname != "") // 해결중
+        connInfoText.text = "방 참가 실패";
+
+        if (nickname != "") // 해결중
         {
             Debug.Log(message);
         }
