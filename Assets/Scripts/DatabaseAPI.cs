@@ -6,16 +6,24 @@ using Firebase.Database;
 using Firebase.Unity.Editor;
 using Firebase.Extensions;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Linq;
 
 public class DatabaseAPI : MonoBehaviour
 {
     private DatabaseReference reference;
     public string key;
+    public ToggleGroup toggleGoup;
 
     private void Awake()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+        GetKey(LoginManager.nickname);
+    }
+
+    private void GetKey(string mastername)
+    {
         reference.Child("chatRooms").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted || task.IsCanceled)
@@ -28,7 +36,7 @@ public class DatabaseAPI : MonoBehaviour
                 foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
                 {
                     IDictionary createdBy = (IDictionary)data.Child("createdBy").Value;
-                    if (createdBy["name"].Equals(LoginManager.nickname))
+                    if (createdBy["name"].Equals(mastername))
                     {
                         IDictionary chatRooms = (IDictionary)data.Value;
                         key = chatRooms["id"].ToString();
@@ -38,6 +46,20 @@ public class DatabaseAPI : MonoBehaviour
             }
         });
 
+    }
+
+    public void CheckToggle()
+    {
+        Toggle theActiveToggle = toggleGoup.ActiveToggles().FirstOrDefault();
+        Debug.Log("It worked! " + theActiveToggle.gameObject.name);
+        if (theActiveToggle.gameObject.name == "Public")
+        {
+            GetKey("admin");
+        }
+        else
+        {
+            GetKey(LoginManager.nickname);
+        }
     }
 
     public void PostMessage(Message message, Action callback, Action<AggregateException> fallback)

@@ -9,6 +9,7 @@ using Firebase.Database;
 using Firebase.Unity.Editor;
 using Firebase.Extensions;
 using UnityEngine.UI;
+using UnityEditor;
 using ExitGames.Client.Photon;
 
 public class LoginManager : MonoBehaviourPunCallbacks
@@ -65,6 +66,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
         //appset.AppVersion = gameVersion;
         //bool connectInProcess = client.ConnectUsingSettings(appset);
     }
+
 
     // 마스터 서버에 접속되면 자동 실행되는 함수 3가지 경우 다 실행되서 나눠서 코딩함 1. 맨 처음 들어올 때 2.내 방에서 나가서 친구방 찾아갈때 3.친구방 나와서 내방으로 돌아갈 때
     public override void OnConnectedToMaster()
@@ -126,7 +128,6 @@ public class LoginManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            
             nickname = nicknameIF.text;
             // 입력받은 ID + 비밀번호로 로그인 인증 실행(비동기)
             auth.SignInWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
@@ -172,7 +173,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
             //DB에 사용자 정보 추가하는 부분
             FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
             reference = FirebaseDatabase.DefaultInstance.GetReference("users"); // users 위치 참조
-
+            
             reference.GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted || task.IsCanceled)
