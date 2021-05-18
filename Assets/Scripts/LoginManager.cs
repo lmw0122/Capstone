@@ -236,6 +236,8 @@ public class LoginManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom() // 내 닉네임으로 방을 만들고 들어왔을 경우
     {
+        DatabaseAPI.roommaster = PhotonNetwork.CurrentRoom.Name;
+        ChatHandler.roommaster = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("방 참가 성공");
        
         Debug.Log(PhotonNetwork.CurrentRoom.Name);

@@ -23,6 +23,7 @@ public class ChatHandler : MonoBehaviour
     public Transform messagesContainerPublic;
     public ToggleGroup toggleGoup;
     private string key;
+    public static string roommaster;
     private void Start()
     {
         GetMessages(); // 처음 시작할 때 각 채팅방의 메시지들을 받아옴
@@ -44,7 +45,7 @@ public class ChatHandler : MonoBehaviour
                 foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
                 {
                     IDictionary createdBy = (IDictionary)data.Child("createdBy").Value;
-                    if (createdBy["name"].Equals(LoginManager.nickname)) // Private 채팅방 생성
+                    if (createdBy["name"].Equals(roommaster)) // Private 채팅방 생성
                     {
                         IDictionary chatRooms = (IDictionary)data.Value;
                         key = chatRooms["id"].ToString();

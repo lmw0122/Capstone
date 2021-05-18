@@ -13,13 +13,15 @@ public class DatabaseAPI : MonoBehaviour
 {
     private DatabaseReference reference;
     public string key;
+    public static string roommaster;
     public ToggleGroup toggleGoup;
 
     private void Awake()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        GetKey(LoginManager.nickname);
+        GetKey("admin");
+        Debug.Log(roommaster);
     }
 
     private void GetKey(string mastername)
@@ -57,7 +59,7 @@ public class DatabaseAPI : MonoBehaviour
         }
         else
         {
-            GetKey(LoginManager.nickname);
+            GetKey(roommaster);
         }
     }
 
