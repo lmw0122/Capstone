@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "666859596598",
-    "firebase_url": "https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com",
-    "project_id": "react-firebase-chat-app-3b8de",
-    "storage_bucket": "react-firebase-chat-app-3b8de.appspot.com"
+    "project_number": "560218264203",
+    "firebase_url": "https://project-6629124072636312930-default-rtdb.firebaseio.com",
+    "project_id": "project-6629124072636312930",
+    "storage_bucket": "project-6629124072636312930.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:666859596598:android:ba5317aa5c015b81136197",
+        "mobilesdk_app_id": "1:560218264203:android:d661af5bf46990d26cba8e",
         "android_client_info": {
           "package_name": "com.Moonggae.MIPTV"
         }
       },
       "oauth_client": [
         {
-          "client_id": "666859596598-91h7acg2jm87dglo8ob8bfgbip5ooi4n.apps.googleusercontent.com",
+          "client_id": "560218264203-kf0vad0l2rv7hok7gl914rs5ia9gmbgn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBoeTz1kqqxhk8B9s_xtNDz-OeKg2z-O7E"
+          "current_key": "AIzaSyB6lzJxwNyREO6KM7719ICCRpO4KB5Wyro"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "666859596598-91h7acg2jm87dglo8ob8bfgbip5ooi4n.apps.googleusercontent.com",
+              "client_id": "560218264203-kf0vad0l2rv7hok7gl914rs5ia9gmbgn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

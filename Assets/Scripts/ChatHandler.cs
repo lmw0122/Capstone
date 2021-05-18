@@ -14,7 +14,7 @@ public class ChatHandler : MonoBehaviour
     public Transform messagesContainer;
     private void Start()
     {
-        database.ListenForMessages(InstantiateMessage, Debug.Log);
+        //database.ListenForMessages(InstantiateMessage);
     }
 
     public void SendMessage() => database.PostMessage(new Message(LoginManager.nickname, textIF.text), () => Debug.Log("Message was sent!"), Debug.Log);
