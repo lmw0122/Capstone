@@ -5,6 +5,7 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Unity.Editor;
 using Firebase.Extensions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -15,6 +16,7 @@ public class DatabaseAPI : MonoBehaviour
     public string key;
     public static string roommaster;
     public ToggleGroup toggleGoup;
+    public TMP_InputField textIF;
 
     private void Awake()
     {
@@ -65,7 +67,8 @@ public class DatabaseAPI : MonoBehaviour
 
     public void PostMessage(Message message, Action callback, Action<AggregateException> fallback)
     {
-        
+        textIF.Select();
+        textIF.text = "";
         var messageJSON = StringSerializationAPI.Serialize(typeof(Message), message); //Message 타입을 JSON으로 파싱
         string messageKey = reference.Child("messages").Child(key).Push().Key;
         reference.Child("messages").Child(key).Child(messageKey).SetRawJsonValueAsync(messageJSON).ContinueWith(task =>
