@@ -171,7 +171,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
         if (idIF.text.Length != 0 && passwordIF.text.Length != 0) //ID와 비밀번호 모두 입력해야 실행
         {
             //DB에 사용자 정보 추가하는 부분
-            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
+            FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
             reference = FirebaseDatabase.DefaultInstance.GetReference("users"); // users 위치 참조
             
             reference.GetValueAsync().ContinueWithOnMainThread(task =>

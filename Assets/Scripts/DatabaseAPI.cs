@@ -17,7 +17,7 @@ public class DatabaseAPI : MonoBehaviour
 
     private void Awake()
     {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         GetKey(LoginManager.nickname);
     }
@@ -40,7 +40,6 @@ public class DatabaseAPI : MonoBehaviour
                     {
                         IDictionary chatRooms = (IDictionary)data.Value;
                         key = chatRooms["id"].ToString();
-                        Debug.Log(key);
                     }
                 }
             }
@@ -66,10 +65,15 @@ public class DatabaseAPI : MonoBehaviour
     {
         
         var messageJSON = StringSerializationAPI.Serialize(typeof(Message), message); //Message 타입을 JSON으로 파싱
-        reference.Child("messages").Child(key).Push().SetRawJsonValueAsync(messageJSON).ContinueWith(task =>
+        string messageKey = reference.Child("messages").Child(key).Push().Key;
+        reference.Child("messages").Child(key).Child(messageKey).SetRawJsonValueAsync(messageJSON).ContinueWith(task =>
         {
             if (task.IsCanceled || task.IsFaulted) fallback(task.Exception);
-            else callback();
+            else
+            {
+                callback();
+                reference.Child("messages").Child(key).Child(messageKey).UpdateChildrenAsync(new Dictionary<string, object> { { "timestamp", ServerValue.Timestamp } }); //Timestamp 설정
+            }
         }); //비동기 task로 DB에 추가
     }
 

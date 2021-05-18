@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
-  <string name="firebase_database_url" translatable="false">https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com</string>
-  <string name="gcm_defaultSenderId" translatable="false">666859596598</string>
-  <string name="google_storage_bucket" translatable="false">react-firebase-chat-app-3b8de.appspot.com</string>
-  <string name="project_id" translatable="false">react-firebase-chat-app-3b8de</string>
-  <string name="google_api_key" translatable="false">AIzaSyBoeTz1kqqxhk8B9s_xtNDz-OeKg2z-O7E</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBoeTz1kqqxhk8B9s_xtNDz-OeKg2z-O7E</string>
-  <string name="google_app_id" translatable="false">1:666859596598:android:ba5317aa5c015b81136197</string>
-  <string name="default_web_client_id" translatable="false">666859596598-91h7acg2jm87dglo8ob8bfgbip5ooi4n.apps.googleusercontent.com</string>
+  <string name="firebase_database_url" translatable="false">https://project-6629124072636312930-default-rtdb.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">560218264203</string>
+  <string name="google_storage_bucket" translatable="false">project-6629124072636312930.appspot.com</string>
+  <string name="project_id" translatable="false">project-6629124072636312930</string>
+  <string name="google_api_key" translatable="false">AIzaSyB6lzJxwNyREO6KM7719ICCRpO4KB5Wyro</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB6lzJxwNyREO6KM7719ICCRpO4KB5Wyro</string>
+  <string name="google_app_id" translatable="false">1:560218264203:android:d661af5bf46990d26cba8e</string>
+  <string name="default_web_client_id" translatable="false">560218264203-kf0vad0l2rv7hok7gl914rs5ia9gmbgn.apps.googleusercontent.com</string>
 </resources>

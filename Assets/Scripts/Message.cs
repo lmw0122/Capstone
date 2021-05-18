@@ -7,7 +7,7 @@ using UnityEngine;
 public class Message : MonoBehaviour
 {
     public string content;
-    public string timestamp;
+    public Int64 timestamp;
     public class User
     {
         public string id;
@@ -21,7 +21,7 @@ public class Message : MonoBehaviour
         }
     }
     public User user;
-    public Message(string content, string timestamp, string id, string image, string sendername)
+    public Message(string content, Int64 timestamp, string id, string image, string sendername)
     {
         user = new User(id, image, sendername);
         this.content = content;

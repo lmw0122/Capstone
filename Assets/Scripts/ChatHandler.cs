@@ -30,7 +30,7 @@ public class ChatHandler : MonoBehaviour
 
     private void GetMessages() // 방 생성자의 닉네임을 통해 해당 방을 찾아 채팅 내용을 불러옴
     {
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://react-firebase-chat-app-3b8de-default-rtdb.firebaseio.com/");
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         reference.Child("chatRooms").GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -48,14 +48,12 @@ public class ChatHandler : MonoBehaviour
                     {
                         IDictionary chatRooms = (IDictionary)data.Value;
                         key = chatRooms["id"].ToString();
-                        Debug.Log(key);
                         database.ListenForMessages(InstantiateMessage, Debug.Log, key);
                     }
                     else if (createdBy["name"].Equals("admin")) // Public 채팅방 생성
                     {
                         IDictionary chatRooms = (IDictionary)data.Value;
                         key = chatRooms["id"].ToString();
-                        Debug.Log(key);
                         database.ListenForMessages(InstantiateMessagePublic, Debug.Log, key);
                     }
 
@@ -90,7 +88,7 @@ public class ChatHandler : MonoBehaviour
     //}
 
 
-    public void SendMessage() => database.PostMessage(new Message(textIF.text, ServerValue.Timestamp.ToString(), LoginManager.auth.CurrentUser.UserId,
+    public void SendMessage() => database.PostMessage(new Message(textIF.text, 0, LoginManager.auth.CurrentUser.UserId,
         "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", LoginManager.nickname), () => Debug.Log("Message was sent!"), Debug.Log);
 
     private void InstantiateMessage(Message message)
