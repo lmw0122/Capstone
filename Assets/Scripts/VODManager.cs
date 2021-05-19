@@ -27,7 +27,7 @@ public class VODManager : MonoBehaviour
         string keyword = keywordIF.text;
 
         storageRef = storage.GetReferenceFromUrl(GetUrl(keyword));
-        for (int i = 1; i < 3; i++)
+        for (int i = 1; i <= 3; i++)
         {
             StorageReference ImagesRef = storageRef.Child($"episoad{i}({i}ȭ)").Child("image");
             GameObject VODImage = null;

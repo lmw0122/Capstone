@@ -201,21 +201,22 @@ public class LoginManager : MonoBehaviourPunCallbacks
                         {
                             User user = new User(idIF.text, nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
                             string userJson = JsonUtility.ToJson(user);
+                            FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+                            string UID = firebaseUser.UserId;
+
                             string userKey = reference.Push().Key;
-                            reference.Child(userKey).SetRawJsonValueAsync(userJson);
+                            reference.Child(UID).SetRawJsonValueAsync(userJson);
 
                             connInfoText.text = "회원가입 성공";
                             Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
 
                             reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms"); // chatRooms 위치 참조
-                            /*string chatRoomJson = JsonUtility.ToJson(chatRoom);
                             string chatRoomKey = reference.Push().Key;
-                            reference.Child(chatRoomKey).SetRawJsonValueAsync(chatRoomJson);*/
-                            string chatRoomKey = reference.Push().Key;
-                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "description", chatRoomKey, "name"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
+                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "description", UID, nicknameIF.text + "의 방"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
                             var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
-                            reference.Child(chatRoomKey).SetRawJsonValueAsync(chatRoomJson);
+                            reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
                             Debug.Log("채팅방 생성 완료");
+                            SetPlayerNameAndImage(nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
                         }
                         else
                         {
@@ -266,4 +267,32 @@ public class LoginManager : MonoBehaviourPunCallbacks
     {
         //client.Disconnect();
     }
+
+    public void SetPlayerNameAndImage(string playerName, string imageUrl)
+    {
+        FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
+        if (user != null)
+        {
+            UserProfile profile = new UserProfile
+            {
+                DisplayName = playerName,
+                PhotoUrl = new System.Uri(imageUrl),
+            };
+            user.UpdateUserProfileAsync(profile).ContinueWith(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("UpdateUserProfileAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                Debug.Log("User profile updated successfully.");
+            });
+        }
+    }
+
 }
