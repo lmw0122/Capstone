@@ -57,27 +57,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == Firebase.DependencyStatus.Available)
-            {
-
-                // Create and hold a reference to your FirebaseApp,
-                // where app is a Firebase.FirebaseApp property of your application class.
-                app = Firebase.FirebaseApp.DefaultInstance;
-                Debug.Log("ok");
-                connInfoText.text = "OK";
-                // Set a flag here to indicate whether Firebase is ready to use by your app.
-            }
-            else
-            {
-                UnityEngine.Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-                // Firebase Unity SDK is not safe to use here.
-                connInfoText.text = " NOT OK";
-
-            }
-        });
+        
 
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 접속
@@ -96,7 +76,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     {
         Debug.Log(isFirst);
         //connInfoText.text = "마스터에 연결됨";
-        Debug.Log("마스터에 연결됨");
+        connInfoText.text = "마스터에 연결됨";
         
         if(GManager.fNickname != "") // 2번 경우, fNickname은 내가 마이룸에서 가고 싶은 친구 검색했을 때 그 닉네임
         {
@@ -156,6 +136,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
             auth.SignInWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
             task =>
             {
+                connInfoText.text = "로그인중";
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) // 문제 없이 Task 실행되었을 경우
                 {
                     if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면

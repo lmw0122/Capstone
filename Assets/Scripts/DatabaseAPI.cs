@@ -18,7 +18,7 @@ public class DatabaseAPI : MonoBehaviour
     public ToggleGroup toggleGoup;
     public TMP_InputField textIF;
 
-    private void Awake()
+    private void Start()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
