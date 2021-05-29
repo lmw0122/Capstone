@@ -138,9 +138,10 @@ GameObject:
   - component: {fileID: 4350330077990015813}
   - component: {fileID: 1053575595913180499}
   - component: {fileID: 8132365821571677493}
+  - component: {fileID: 8049605766719598517}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: localplayers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,3 +304,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6844348117152173720}
   m_CullTransparentMesh: 1
+--- !u!114 &8049605766719598517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844348117152173720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ee619a6905e1c4b9c93b8f12741b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 20
+  height: 5
+  heightSmoothLag: 0.3
+  centerOffset: {x: 0, y: 0, z: 0}
+  followOnStart: 0

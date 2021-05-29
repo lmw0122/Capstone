@@ -7,7 +7,6 @@ using UnityEngine.UI;
 // player의 속성들을 설정하는 스크립트 
 public class PlayerManager : MonoBehaviourPun 
 {
-    
     //public GameObject other;
     [SerializeField] private Text myName;
     
@@ -18,6 +17,8 @@ public class PlayerManager : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+
         if (photonView.IsMine) // 이 플레이어가 내 플레이어라면 
         {
             myName.text = LoginManager.nickname;
@@ -29,8 +30,28 @@ public class PlayerManager : MonoBehaviourPun
             myName.color = Color.red;
         }
         
+        if (_cameraWork != null)
+        {
+            if (photonView.IsMine)
+            {
+                _cameraWork.OnStartFollowing();
+            }
+        }
+        else
+        {
+            Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
+        }
     }
-
+    [PunRPC]
+    void sendRPC()
+    {
+        GameObject.Find("GameManager").GetComponent<GManager>().SendURL();
+    }
+    [PunRPC]
+    void loadByRemote()
+    {
+        GameObject.Find("GameManager").GetComponent<GManager>().loadPrefabs();
+    }
     // Update is called once per frame
     void Update()
     {
