@@ -12,7 +12,7 @@ public class JoystickManager : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private RectTransform rect_Joystick;
 
     private float radius;
-    private bool isTouch = false;
+    public static bool isTouch = false;
     [SerializeField] private float moveSpeed;
     public static Vector3 movePosition;
     public static float angle;
