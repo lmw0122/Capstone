@@ -13,6 +13,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Net.Sockets;
 using System.IO;
+using TMPro;
 
 public class GManager : MonoBehaviourPunCallbacks
 {
@@ -22,7 +23,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public GameObject contents;
     public static string fNickname = "";
     public InputField friendIF;
-
+    public GameObject thisisme;
     public GameObject[] players;
     public GameObject[] prefabs;
     public GameObject[] remainPrefabs;
@@ -40,7 +41,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public string URLforsend;
     public string URLforme;
     public Text infoText;
-
+    public TMP_InputField textIF;
     public PhotonView PV;
     public class PrefabInfo
     {
@@ -75,6 +76,32 @@ public class GManager : MonoBehaviourPunCallbacks
         URLforme = "https://project-6629124072636312930.web.app/sub?" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main?" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
+    }
+    public void ShowMessage()
+    {
+        string mess = textIF.text.ToString();
+        textIF.text = "";
+        Debug.Log("mess is : " + mess);
+        players = GameObject.FindGameObjectsWithTag("localplayers");
+        for (int i = 0; i < players.Length; i++)
+        {
+            PhotonView temppv = players[i].GetComponent<PhotonView>();
+            if (temppv.IsMine)
+            {
+                thisisme = players[i];
+                PV = temppv;
+                Debug.Log("내꺼 찾기 성공");
+            }
+        }
+        if (thisisme)
+        {
+            PlayerManager tempPM = thisisme.GetComponent<PlayerManager>();
+            tempPM.showChat(mess);
+        }
+        else
+        {
+            Debug.Log("내꺼 찾기 실패");
+        }
     }
     public void ConnetToServer()
     {
