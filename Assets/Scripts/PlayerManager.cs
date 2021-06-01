@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviourPun 
 {
     //public GameObject other;
-    [SerializeField] private Text myName;
+
     
     private float rotationSpeed = 5.0f;
 
@@ -21,13 +21,13 @@ public class PlayerManager : MonoBehaviourPun
 
         if (photonView.IsMine) // 이 플레이어가 내 플레이어라면 
         {
-            myName.text = LoginManager.nickname;
-            myName.color = Color.blue;
+            //myName.text = LoginManager.nickname;
+            //myName.color = Color.blue;
         }
         else // 나를 제외한 내 방에 있는 플레이어들에 대해
         {
-            myName.text = LoginManager.nickname;
-            myName.color = Color.red;
+            //myName.text = LoginManager.nickname;
+            //myName.color = Color.red;
         }
         
         if (_cameraWork != null)

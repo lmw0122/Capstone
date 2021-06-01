@@ -59,3 +59,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 google-services.json
+
+# RSA Private Key
+Assets/Scripts/Config.cs
+Assets/Scripts/Config.cs.meta

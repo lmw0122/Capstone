@@ -58,6 +58,5 @@ public class JoystickManager : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         isTouch = false;
         rect_Joystick.localPosition = Vector3.zero;
         movePosition = Vector3.zero;
-        angle = 0;
     }
 }

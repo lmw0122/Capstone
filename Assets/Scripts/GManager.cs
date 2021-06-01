@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Firebase;
+using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Unity.Editor;
 using Firebase.Extensions;
@@ -13,6 +14,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Net.Sockets;
 using System.IO;
+using System.IdentityModel.Tokens.Jwt;
 
 public class GManager : MonoBehaviourPunCallbacks
 {
@@ -39,6 +41,8 @@ public class GManager : MonoBehaviourPunCallbacks
     StreamReader reader;
     public string URLforsend;
     public string URLforme;
+
+    private string token;
     public Text infoText;
 
     public PhotonView PV;
@@ -75,6 +79,13 @@ public class GManager : MonoBehaviourPunCallbacks
         URLforme = "https://project-6629124072636312930.web.app/sub?" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main?" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
+
+        //FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+        //string UID = firebaseUser.UserId;
+
+        //CreateValidateJWT.Program P = new CreateValidateJWT.Program();
+        //token = P.GenerateJWTToken(UID);
+
     }
     public void ConnetToServer()
     {
@@ -89,6 +100,17 @@ public class GManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    //public void SendToken()
+    //{
+    //    FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+    //    reference = FirebaseDatabase.DefaultInstance.GetReference("login/" + LoginManager.nickname);
+    //    Dictionary<string, string> dictionary= new Dictionary<string, string>();
+    //    dictionary.Add("token", token);
+    //    Debug.Log(token);
+    //    reference.SetValueAsync(dictionary);
+    //}
+
     public void SendURL()
     {
         if (socketReady) return;
@@ -122,6 +144,7 @@ public class GManager : MonoBehaviourPunCallbacks
     
     public void ClickVOD()
     {
+        //SendToken();
         PV.RPC("sendRPC", RpcTarget.All);
         Debug.Log("rpc sended");
         SendURL();

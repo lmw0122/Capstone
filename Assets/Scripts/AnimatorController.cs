@@ -9,7 +9,6 @@ public class AnimatorController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        animator.SetBool("IsTouch", false);
     }
 
     // Start is called before the first frame update
@@ -21,9 +20,6 @@ public class AnimatorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (JoystickManager.isTouch == true)
-        {
-            animator.SetBool("IsTouch", false);
-        }
+        animator.SetBool("isTouch", JoystickManager.isTouch);
     }
 }

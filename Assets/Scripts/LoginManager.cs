@@ -11,6 +11,7 @@ using Firebase.Extensions;
 using UnityEngine.UI;
 using UnityEditor;
 using ExitGames.Client.Photon;
+using CreateValidateJWT;
 
 public class LoginManager : MonoBehaviourPunCallbacks
 {
@@ -57,8 +58,6 @@ public class LoginManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
-
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 접속
         auth = FirebaseAuth.DefaultInstance;
@@ -144,7 +143,8 @@ public class LoginManager : MonoBehaviourPunCallbacks
                         
                         connInfoText.text = "내방으로 처음 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
-                        
+
+                        SendToken();
                         //client.OpJoinRoom(roomParams
                         //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                     }
@@ -216,7 +216,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
 
                             reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms"); // chatRooms 위치 참조
                             string chatRoomKey = reference.Push().Key;
-                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "description", UID, nicknameIF.text + "의 방"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
+                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "", "description", UID, nicknameIF.text + "의 방"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
                             var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
                             reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
                             Debug.Log("채팅방 생성 완료");
@@ -297,6 +297,21 @@ public class LoginManager : MonoBehaviourPunCallbacks
                 Debug.Log("User profile updated successfully.");
             });
         }
+    }
+    public void SendToken()
+    {
+        FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+        string UID = firebaseUser.UserId;
+
+        Program P = new Program();
+        string token = P.GenerateJWTToken(UID);
+
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+        reference = FirebaseDatabase.DefaultInstance.GetReference("login/" + LoginManager.nickname);
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+        dictionary.Add("token", token);
+        Debug.Log(token);
+        reference.SetValueAsync(dictionary);
     }
 
 }

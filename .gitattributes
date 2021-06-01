@@ -13,3 +13,4 @@ Assets/Firebase/Editor/generate_xml_from_google_services_json.exe filter=lfs dif
 Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.15.2/firebase-app-unity-6.15.2.srcaar filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Android/com.google.firebase.firebase-storage-unity-6.15.2.aar filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Android/com.google.firebase.firebase-app-unity-6.15.2.aar filter=lfs diff=lfs merge=lfs -text
+Assets/Packages/BouncyCastle.1.8.9/lib/BouncyCastle.Crypto.dll filter=lfs diff=lfs merge=lfs -text
