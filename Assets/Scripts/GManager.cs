@@ -14,6 +14,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Net.Sockets;
 using System.IO;
+using TMPro;
 using System.IdentityModel.Tokens.Jwt;
 
 public class GManager : MonoBehaviourPunCallbacks
@@ -24,7 +25,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public GameObject contents;
     public static string fNickname = "";
     public InputField friendIF;
-
+    public GameObject thisisme;
     public GameObject[] players;
     public GameObject[] prefabs;
     public GameObject[] remainPrefabs;
@@ -44,7 +45,7 @@ public class GManager : MonoBehaviourPunCallbacks
 
     private string token;
     public Text infoText;
-
+    public TMP_InputField textIF;
     public PhotonView PV;
     public class PrefabInfo
     {
@@ -79,13 +80,32 @@ public class GManager : MonoBehaviourPunCallbacks
         URLforme = "https://project-6629124072636312930.web.app/sub?" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main?" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
-
-        //FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
-        //string UID = firebaseUser.UserId;
-
-        //CreateValidateJWT.Program P = new CreateValidateJWT.Program();
-        //token = P.GenerateJWTToken(UID);
-
+    }
+    public void ShowMessage()
+    {
+        string mess = textIF.text.ToString();
+        textIF.text = "";
+        Debug.Log("mess is : " + mess);
+        players = GameObject.FindGameObjectsWithTag("localplayers");
+        for (int i = 0; i < players.Length; i++)
+        {
+            PhotonView temppv = players[i].GetComponent<PhotonView>();
+            if (temppv.IsMine)
+            {
+                thisisme = players[i];
+                PV = temppv;
+                Debug.Log("내꺼 찾기 성공");
+            }
+        }
+        if (thisisme)
+        {
+            PlayerManager tempPM = thisisme.GetComponent<PlayerManager>();
+            tempPM.showChat(mess);
+        }
+        else
+        {
+            Debug.Log("내꺼 찾기 실패");
+        }
     }
     public void ConnetToServer()
     {
@@ -100,17 +120,6 @@ public class GManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    //public void SendToken()
-    //{
-    //    FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
-    //    reference = FirebaseDatabase.DefaultInstance.GetReference("login/" + LoginManager.nickname);
-    //    Dictionary<string, string> dictionary= new Dictionary<string, string>();
-    //    dictionary.Add("token", token);
-    //    Debug.Log(token);
-    //    reference.SetValueAsync(dictionary);
-    //}
-
     public void SendURL()
     {
         if (socketReady) return;
@@ -144,7 +153,6 @@ public class GManager : MonoBehaviourPunCallbacks
     
     public void ClickVOD()
     {
-        //SendToken();
         PV.RPC("sendRPC", RpcTarget.All);
         Debug.Log("rpc sended");
         SendURL();
