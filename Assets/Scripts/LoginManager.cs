@@ -32,7 +32,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     // 앱이 시작하면 마스터서버 접속 -> 마스터에 접속되면 자동으로 로비로 접속(로비에선 아무것도 안함, 기본 설정이라 들렀다 가는 느낌) ->  닉네임으로 방 만들고 자동 접속(여기가 마이룸)
     // 친구 닉네임 검색하면 내 방 유지하면서 나가고 마스터 서버 갔다가 친구 방 이동 -> 뒤로 버튼 누르면 친구 방 나와서 마스터 서버 갔다가 내 닉네임 방으로 돌아옴 
     public static bool isFirst = true;
-
+    int roomIndex = 0;
     public static string nickname = "";
     public static LoadBalancingClient client;
     EnterRoomParams roomParams = new EnterRoomParams();
@@ -188,6 +188,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
                     foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
                     {
                         IDictionary users = (IDictionary)data.Value;
+                       
                         if (users["name"].Equals(nicknameIF.text.ToString()))
                         {
                             connInfoText.text = "중복된 닉네임";
@@ -211,13 +212,31 @@ public class LoginManager : MonoBehaviourPunCallbacks
                             connInfoText.text = "회원가입 성공";
                             Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
 
-                            reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms"); // chatRooms 위치 참조
-                            string chatRoomKey = reference.Push().Key;
-                            ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "", "description", UID, nicknameIF.text + "의 방"); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
-                            var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
-                            reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
-                            Debug.Log("채팅방 생성 완료");
-                            SetPlayerNameAndImage(nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                            reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms");
+                            reference.GetValueAsync().ContinueWithOnMainThread(task =>
+                            {
+                                if (task.IsFaulted || task.IsCanceled)
+                                {
+
+                                }
+                                else if (task.IsCompleted)
+                                {
+                                    Debug.Log("room index is : ");
+
+                                    DataSnapshot snapshot = task.Result;
+                                    IDictionary temp = (IDictionary)snapshot.Value;
+                                    roomIndex = temp.Count;
+                                    Debug.Log("room index is : " + roomIndex);
+                                    string chatRoomKey = reference.Push().Key;
+                                    ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "", "description", UID, nicknameIF.text + "의 방", roomIndex); //TODO: 현재 방 주인의 nickname만 입력되는 상태, 추후 수정 필요
+                                    var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
+                                    reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
+                                    Debug.Log("채팅방 생성 완료");
+                                    SetPlayerNameAndImage(nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                                }
+                            });
+                            // chatRooms 위치 참조
+                            
                         }
                         else
                         {

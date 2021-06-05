@@ -8,7 +8,7 @@ public class DestroyObject : MonoBehaviour
     public Camera preCam;
     public GameObject destroyCanvas;
     public GameObject mainCanvas;
-
+    public GameObject gameManager;
     GameObject toDestroy;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,7 @@ public class DestroyObject : MonoBehaviour
                 if(toDestroy.tag == "prefabs")
                 {
                     Destroy(toDestroy);
+                    gameManager.GetComponent<GManager>().savePrefabs();
                     preCam.enabled = false;
                     mainCam.enabled = true;
                     mainCanvas.SetActive(true);

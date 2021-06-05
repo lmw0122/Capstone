@@ -16,6 +16,7 @@ using System.Net.Sockets;
 using System.IO;
 using TMPro;
 using System.IdentityModel.Tokens.Jwt;
+using UnityEngine.Networking;
 
 public class GManager : MonoBehaviourPunCallbacks
 {
@@ -32,6 +33,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public PrefabInfo[] remainPrefabInfos;
     public Camera preCam;
     public Camera mainCam;
+    public GameObject userifo;
 
     public static GameObject toCreate;
 
@@ -43,10 +45,13 @@ public class GManager : MonoBehaviourPunCallbacks
     public string URLforsend;
     public string URLforme;
 
+    public string imageUrl = "";
     private string token;
     public Text infoText;
     public TMP_InputField textIF;
     public PhotonView PV;
+    public RawImage testImage;
+    public ScrollRect chatRect;
     public class PrefabInfo
     {
         public Vector3 tempVector;
@@ -67,6 +72,7 @@ public class GManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        
         if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname) //내 방이 아니라면 뒤로가기 버튼을 활성화 한다.
         {
             backButton.SetActive(true);
@@ -77,9 +83,62 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             loadPrefabs();
         }
-        URLforme = "https://project-6629124072636312930.web.app/sub?" + LoginManager.nickname;
-        URLforsend = "https://project-6629124072636312930.web.app/main?" + LoginManager.nickname;
+        URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
+        URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
+    }
+    public void setUserinfo()
+    {
+        Debug.Log("name is : "+LoginManager.nickname);
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        userifo.GetComponentInChildren<Text>().text = LoginManager.nickname;
+        reference.Child("users").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.Log("aht qnffjdhkTdma");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
+                foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
+                {
+                    string tempName = (string)data.Child("name").Value;
+                    Debug.Log("temp name is :" + tempName);
+                    if (tempName.Equals(LoginManager.nickname))
+                    {
+                        imageUrl = (string)data.Child("image").Value;
+                        Debug.Log("image url : " + imageUrl);
+                        CoLoadImageTexture(imageUrl);
+                        //Debug.Log("texture is : " + testImage.texture.ToString());
+                        Texture tempTextture = testImage.texture;
+                        userifo.GetComponentInChildren<RawImage>().texture = tempTextture;
+                    }
+                    Debug.Log("iURL : " + imageUrl);
+                }
+            }
+        });
+        
+    }
+    IEnumerator CoLoadImageTexture(string url)
+    {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            testImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+        }
+    }
+    private void GetImage(string mastername)
+    {
+        
+
     }
     public void ShowMessage()
     {
@@ -106,6 +165,9 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("내꺼 찾기 실패");
         }
+
+        //채팅방 위치 초기화 + 스크롤 보이게
+        
     }
     public void ConnetToServer()
     {
@@ -142,8 +204,8 @@ public class GManager : MonoBehaviourPunCallbacks
             Debug.Log($"소켓 에러 : {e.Message}");
         }
 
-        URLforme = URLforme + PhotonNetwork.CurrentRoom.Name;
-        URLforsend = URLforsend + PhotonNetwork.CurrentRoom.Name;
+        URLforme = URLforme + "/" + PhotonNetwork.CurrentRoom.Name;
+        URLforsend = URLforsend + "/" + PhotonNetwork.CurrentRoom.Name;
         Debug.Log("URL : " + URLforsend);
         writer.WriteLine(URLforsend);
         writer.Flush();
@@ -159,7 +221,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     private void SpawnPlayer ()
     {
-        PhotonNetwork.Instantiate("Mouse", new Vector3(0, 0.8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         
 
     }
@@ -184,7 +246,7 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.GetReference("prefabs/"+LoginManager.nickname); // prefabs 위치 참조
-
+        remainPrefabs = null;
         remainPrefabs = GameObject.FindGameObjectsWithTag("prefabs");
         Debug.Log(remainPrefabs.Length);
         for (int i = 0; i < remainPrefabs.Length; i++)
@@ -281,7 +343,7 @@ public class GManager : MonoBehaviourPunCallbacks
                     }
 
                 }
-                FCanvas.SetActive(true);
+                //FCanvas.SetActive(true);
                 for(int i = 1; i<friendList.Count+1; i++)
                 {
                     contents = GameObject.Find($"Friend" +i.ToString());
@@ -292,7 +354,7 @@ public class GManager : MonoBehaviourPunCallbacks
                     }
                     
                 }
-                for (int i = 1; i < 8; i++)
+                for (int i = 1; i < 10; i++)
                 {
                     contents = GameObject.Find($"Friend" + i.ToString());
                     Text conText = contents.GetComponent<Text>();
@@ -306,8 +368,7 @@ public class GManager : MonoBehaviourPunCallbacks
             }
         });
 
-        //PhotonNetwork.Disconnect();
-        // 내 방을 나옴-> 나오는 순간 마스터에 접속되고 LoginManager의 OnConnectedToMaster 안에서 fNickname 가지고 친구 방 접속 
+        
 
     }
 
