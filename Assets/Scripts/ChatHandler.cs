@@ -24,8 +24,16 @@ public class ChatHandler : MonoBehaviour
     public ToggleGroup toggleGoup;
     private string key;
     public static string roommaster;
+
+    public ScrollRect scrollPublic;
+    public ScrollRect scrollPrivate;
+
+    RectTransform messageSize;
+    float yValue;
     private void Start()
     {
+        scrollPublic.content.sizeDelta = new Vector2(scrollPublic.content.sizeDelta.x, 10);
+        scrollPrivate.content.sizeDelta = new Vector2(scrollPrivate.content.sizeDelta.x, 10);
         GetMessages(); // 처음 시작할 때 각 채팅방의 메시지들을 받아옴
     }
 
@@ -94,16 +102,24 @@ public class ChatHandler : MonoBehaviour
 
     private void InstantiateMessage(Message message)
     {
+        yValue = 0;
         var newMessage = Instantiate(messagePrefab, transform.position, Quaternion.identity);
         newMessage.transform.SetParent(messagesContainer, false);
         newMessage.GetComponent<TextMeshProUGUI>().text = $"{message.getName()}: {message.content}";
+        //메세지 창 크기 늘리기
+        yValue = scrollPrivate.content.sizeDelta.y + newMessage.GetComponent<RectTransform>().sizeDelta.y;
+        scrollPrivate.content.sizeDelta = new Vector2(scrollPrivate.content.sizeDelta.x, yValue);
     }
 
     private void InstantiateMessagePublic(Message message)
     {
+        yValue = 0;
         var newMessage = Instantiate(messagePrefab, transform.position, Quaternion.identity);
         newMessage.transform.SetParent(messagesContainerPublic, false);
         newMessage.GetComponent<TextMeshProUGUI>().text = $"{message.getName()}: {message.content}";
+        //메세지 창 크기 늘리기
+        yValue = scrollPublic.content.sizeDelta.y + newMessage.GetComponent<RectTransform>().sizeDelta.y;
+        scrollPublic.content.sizeDelta = new Vector2(scrollPublic.content.sizeDelta.x, yValue);
     }
 
 }

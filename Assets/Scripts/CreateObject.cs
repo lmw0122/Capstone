@@ -10,6 +10,7 @@ public class CreateObject : MonoBehaviour
     public GameObject createCanvas;
     public GameObject mainCanvas;
 
+    public GameObject gameManager;
     GameObject toCreate; 
 
     
@@ -32,13 +33,13 @@ public class CreateObject : MonoBehaviour
             if(Physics.Raycast(ray, out hit))
             {
                 Debug.Log("Position : " + hit.point);
-                Instantiate(GManager.toCreate, new Vector3(hit.point.x, 0.1f, hit.point.z), Quaternion.identity);
+                Instantiate(GManager.toCreate, new Vector3(hit.point.x, 10f, hit.point.z), Quaternion.identity);
                 preCam.enabled = false;
                 mainCam.enabled = true;
                 mainCanvas.SetActive(true);
                 createCanvas.SetActive(false);
                 GManager.toCreate = null;
-
+                gameManager.GetComponent<GManager>().savePrefabs();
             }
         }
 
