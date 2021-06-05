@@ -86,7 +86,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
         roomOptions.PlayerTtl = -1;
         roomOptions.EmptyRoomTtl = 10;
 
-        if (idIF.text.Length != 0 || passwordIF.text.Length != 0) // 닉네임 입력했는지 체크용(닉네임이 방 만들고 해서 필수이기 때문에)
+        if (idIF.text.Length == 0 || passwordIF.text.Length == 0) // 닉네임 입력했는지 체크용(닉네임이 방 만들고 해서 필수이기 때문에)
         {
             connInfoText.text = "ID와 비밀번호를 입력해 주세요.";
             return;
@@ -100,9 +100,11 @@ public class LoginManager : MonoBehaviourPunCallbacks
                 connInfoText.text = "로그인중";
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) // 문제 없이 Task 실행되었을 경우
                 {
+                    FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+                    nickname = firebaseUser.DisplayName;
+                    Debug.Log("nickname is : " + nickname);
                     if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면
                     {
-                        
                         connInfoText.text = "내방으로 처음 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
                         //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
