@@ -37,6 +37,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public InputField serverIF;
     public static GameObject toCreate;
 
+    public GameObject backTemp;
     bool socketReady;
     TcpClient socket;
     NetworkStream stream;
@@ -320,6 +321,8 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public void Clickf()
     {
+        friendList = new List<string>();
+        contents = new GameObject();
         fNickname = friendIF.text; // 내가 검색한 텍스트를 fNickname변수에 넣고
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -348,10 +351,11 @@ public class GManager : MonoBehaviourPunCallbacks
                     }
 
                 }
-                //FCanvas.SetActive(true);
+                Debug.Log("flist length is : "+friendList.Count);
                 for(int i = 1; i<friendList.Count+1; i++)
                 {
                     contents = GameObject.Find($"Friend" +i.ToString());
+                    
                     Text conText = contents.GetComponent<Text>();
                     if(conText.text != LoginManager.nickname)
                     {
@@ -359,7 +363,7 @@ public class GManager : MonoBehaviourPunCallbacks
                     }
                     
                 }
-                for (int i = 1; i < 10; i++)
+                for (int i = 1; i < 11; i++)
                 {
                     contents = GameObject.Find($"Friend" + i.ToString());
                     Text conText = contents.GetComponent<Text>();
@@ -369,6 +373,7 @@ public class GManager : MonoBehaviourPunCallbacks
                         contents.SetActive(false);
                     }
                 }
+                backTemp.SetActive(false);
                 //string tempFnames = snapshot.Value.ToString();
             }
         });
