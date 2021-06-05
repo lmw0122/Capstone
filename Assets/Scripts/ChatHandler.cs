@@ -70,32 +70,6 @@ public class ChatHandler : MonoBehaviour
             }
         });
     }
-    //public void ConnectToPublicRoom() // 공개 채팅방 접속
-    //{
-    //    messagesContainer.DetachChildren(); // 메시지 창에 추가된 메시지들 삭제
-    //    GetMessages("admin");
-    //}
-
-    //public void ConnectToPrivateRoom() // 비공개 채팅방 접속 (마이룸 별로 있는 채팅방)
-    //{
-    //    messagesContainer.DetachChildren();
-    //    GetMessages(LoginManager.nickname);
-    //}
-
-    //public void CheckToggle() //토글 그룹 중에서 어떤 것이 체크되어 있는지 확인하여 그에 맞는 함수 실행
-    //{
-    //    Toggle theActiveToggle = toggleGoup.ActiveToggles().FirstOrDefault();
-    //    Debug.Log("It worked! " + theActiveToggle.gameObject.name);
-    //    if (theActiveToggle.gameObject.name == "Public")
-    //    {
-    //        ConnectToPublicRoom();
-    //    }
-    //    else
-    //    {
-    //        ConnectToPrivateRoom();
-    //    }
-    //}
-
 
     public void SendMessage() => database.PostMessage(new Message(textIF.text, 0, LoginManager.auth.CurrentUser.UserId,
         "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", LoginManager.nickname), () => Debug.Log("Message was sent!"), Debug.Log);

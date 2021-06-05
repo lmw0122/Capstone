@@ -83,6 +83,7 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             loadPrefabs();
         }
+        setUserinfo();
         URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
@@ -110,7 +111,7 @@ public class GManager : MonoBehaviourPunCallbacks
                     {
                         imageUrl = (string)data.Child("image").Value;
                         Debug.Log("image url : " + imageUrl);
-                        CoLoadImageTexture(imageUrl);
+                        StartCoroutine(CoLoadImageTexture(imageUrl));
                         //Debug.Log("texture is : " + testImage.texture.ToString());
                         Texture tempTextture = testImage.texture;
                         userifo.GetComponentInChildren<RawImage>().texture = tempTextture;
