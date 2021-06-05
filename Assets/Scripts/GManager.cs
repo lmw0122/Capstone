@@ -159,7 +159,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     private void SpawnPlayer ()
     {
-        PhotonNetwork.Instantiate("Mouse", new Vector3(0,1f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        PhotonNetwork.Instantiate("Mouse", new Vector3(0, 0.8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         
 
     }

@@ -143,9 +143,6 @@ public class LoginManager : MonoBehaviourPunCallbacks
                         
                         connInfoText.text = "내방으로 처음 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
-
-                        SendToken();
-                        //client.OpJoinRoom(roomParams
                         //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                     }
                     else //마스터에 접속 안되어 있다면

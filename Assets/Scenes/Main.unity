@@ -371,7 +371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000007121494}
+  m_AnchoredPosition: {x: 0, y: 0.000048650243}
   m_SizeDelta: {x: -0.000061035, y: 106.18}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &51638785
@@ -4147,6 +4147,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 326078339}
+        m_TargetAssemblyTypeName: VODManager, Assembly-CSharp
+        m_MethodName: saveUrl
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 364850796}
         m_TargetAssemblyTypeName: GManager, Assembly-CSharp
         m_MethodName: ClickVOD
@@ -5446,7 +5458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7263,6 +7275,18 @@ MonoBehaviour:
       - m_Target: {fileID: 364850796}
         m_TargetAssemblyTypeName: GManager, Assembly-CSharp
         m_MethodName: ClickVOD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 326078339}
+        m_TargetAssemblyTypeName: VODManager, Assembly-CSharp
+        m_MethodName: saveUrl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9399,6 +9423,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 326078339}
+        m_TargetAssemblyTypeName: VODManager, Assembly-CSharp
+        m_MethodName: saveUrl
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1507172494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11332,7 +11368,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 461302371}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99998766
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

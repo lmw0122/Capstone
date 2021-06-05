@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Firebase;
+using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Storage;
 using Image = UnityEngine.UI.Image;
@@ -17,6 +17,7 @@ public class VODManager : MonoBehaviour
     StorageReference storageRef = storage.GetReferenceFromUrl("gs://project-6629124072636312930.appspot.com");
     public InputField keywordIF;
 
+    public DatabaseReference reference;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +38,7 @@ public class VODManager : MonoBehaviour
             GameObject VODButton = null;
             VODButton = GameObject.Find($"SelecBtn{i}");
             Text text = VODButton.GetComponentInChildren<Text>();
-            text.text = $"빈센조 {i}화 보기";
+            text.text = $"{i}화 보기";
             ImagesRef.Child($"빈센조{i}화.png").GetBytesAsync(1024 * 1024).ContinueWithOnMainThread((Task<byte[]> task) =>
             {
                 if (task.IsFaulted || task.IsCanceled)
@@ -56,6 +57,18 @@ public class VODManager : MonoBehaviour
                 }
             });
         }
+    }
+
+    public void saveUrl()
+    {
+        GameObject temp = EventSystem.current.currentSelectedGameObject;
+        Text tempText = temp.GetComponentInChildren<Text>();
+        var a = tempText.text.Split(' ');
+        string url = GetUrl(keywordIF.text) + "/" + a[0] + "/dvd/" + a[0] + ".mp4";
+        FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+        string UID = firebaseUser.UserId;
+        reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms");
+        reference.Child(UID).Child("createdBy").Child("video").SetValueAsync(url);
     }
 
     public string GetUrl(string title)
