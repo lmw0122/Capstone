@@ -49,6 +49,23 @@ public class PlayerManager : MonoBehaviourPun
 
     public void showChat(string message)
     {
+        int j = message.Length;
+        Debug.Log("message : " + message);
+        Debug.Log("j : " + j);
+
+        if (j >= 10)
+        {
+            for (int i = 0; i < j; i++)
+            {
+                if (i % 10 == 0)
+                {
+                    message = message.Insert(i, "\n");
+                    j++;
+                }
+                
+            }
+        }
+
         Debug.Log("Message is : " + message);
         chatBox.SetActive(true);
         chatBox.GetComponentInChildren<Text>().text = message;
