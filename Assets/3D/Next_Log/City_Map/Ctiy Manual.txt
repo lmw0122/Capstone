@@ -1,0 +1,17 @@
+-How to Configure a City-
+
+You can make a road with a prefab named Asphalt.
+You can make a sidewalk with a prefab named Sidewalk.
+You can make a building by the sidewalk named Building.
+
+- With Building_A prefabs, you can make buildings of various colors and levels. 
+- With Building_B, Building_D, BurGer_Shop_01 prefabs, you can make buildings of various colors and levels. 
+- With Building_C prefabs, you can make buildings of various levels. 
+- With Building_E prefabs, you can make buildings of various colors and levels. 
+
+You can decorate  building windows and sidewalks with the prefabs in Object folder. 
+
+You can decorate roads with Car prefabs in Car folder. 
+If you want Car prefabs to move, please refer to Example_Car_A_01 prefabs. 
+
+Morning_Scene exists as a demo scene.

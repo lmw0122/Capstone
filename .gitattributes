@@ -14,3 +14,7 @@ Assets/Firebase/m2repository/com/google/firebase/firebase-app-unity/6.15.2/fireb
 Assets/Plugins/Android/com.google.firebase.firebase-storage-unity-6.15.2.aar filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Android/com.google.firebase.firebase-app-unity-6.15.2.aar filter=lfs diff=lfs merge=lfs -text
 Assets/Packages/BouncyCastle.1.8.9/lib/BouncyCastle.Crypto.dll filter=lfs diff=lfs merge=lfs -text
+Assets/Hyper filter=lfs diff=lfs merge=lfs -text
+Casual filter=lfs diff=lfs merge=lfs -text
+Characters/Scenes/Demo_Scene.unity filter=lfs diff=lfs merge=lfs -text
+Assets/Hyper[[:space:]]Casual[[:space:]]Characters/Scenes/Demo_Scene.unity filter=lfs diff=lfs merge=lfs -text
