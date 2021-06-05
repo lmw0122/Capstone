@@ -34,7 +34,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public Camera preCam;
     public Camera mainCam;
     public GameObject userifo;
-
+    public InputField serverIF;
     public static GameObject toCreate;
 
     bool socketReady;
@@ -187,7 +187,12 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         if (socketReady) return;
 
-        string host = "172.20.10.2";
+        if(serverIF.text == "")
+        {
+            Debug.Log("IP를 입력해주세요");
+            return;
+        }
+        string host = serverIF.text;
         int port = 7777;
 
         try
