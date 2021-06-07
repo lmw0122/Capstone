@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviourPun
         {
             for (int i = 0; i < j; i++)
             {
-                if (i % 10 == 0)
+                if (i % 11 == 10)
                 {
                     message = message.Insert(i, "\n");
                     j++;

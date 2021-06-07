@@ -73,13 +73,30 @@ public class GManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+
         if (PhotonNetwork.CurrentRoom.Name != LoginManager.nickname) //내 방이 아니라면 뒤로가기 버튼을 활성화 한다.
         {
             backButton.SetActive(true);
             
         }
-        SpawnPlayer();
+        FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
+        string UID = firebaseUser.UserId;
+
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        reference.Child("users").Child(UID).Child("character").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.Log("failed");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                SpawnPlayer(snapshot.Value.ToString());
+            }
+        });
+            
         if(PhotonNetwork.CurrentRoom.Name == LoginManager.nickname)
         {
             loadPrefabs();
@@ -92,7 +109,6 @@ public class GManager : MonoBehaviourPunCallbacks
     public void setUserinfo()
     {
         Debug.Log("name is : "+LoginManager.nickname);
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         userifo.GetComponentInChildren<Text>().text = LoginManager.nickname;
         reference.Child("users").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -226,9 +242,40 @@ public class GManager : MonoBehaviourPunCallbacks
         Debug.Log("rpc sended");
         SendURL();
     }
-    private void SpawnPlayer ()
+    private void SpawnPlayer (string prefabname)
     {
-        PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        if (prefabname == "Stewardess")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Stewardess", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+        else if (prefabname == "Teacher")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Teacher", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+        else if (prefabname == "Doctor")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Doctor", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+        else if (prefabname == "PoliceOfficer")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Police Officer", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+        else if (prefabname == "Cook")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Cook", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+        else if (prefabname == "Businessman")
+        {
+            Debug.Log(prefabname);
+            PhotonNetwork.Instantiate("Businessman", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        }
+
+        // PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         
 
     }

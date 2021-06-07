@@ -35,7 +35,7 @@ public class JoystickManager : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         value = Vector2.ClampMagnitude(value, radius);
         rect_Joystick.localPosition = value;
 
-        float distance = Vector2.Distance(rect_Back.position, rect_Joystick.position) / radius;
+        float distance = Vector2.Distance(rect_Back.position, rect_Joystick.position) / radius * 0.4f;
         value = value.normalized;
         movePosition = new Vector3(value.x * moveSpeed * distance * Time.deltaTime, 0f, value.y * moveSpeed * distance * Time.deltaTime);
         Vector3 direction = new Vector3(value.x, 0, value.y);
