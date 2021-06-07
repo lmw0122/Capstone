@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class CreateObject : MonoBehaviour
+public class DestroyMyObject : MonoBehaviour
 {
     public Camera mainCam;
     public Camera preCam;
-    public GameObject createCanvas;
+    public GameObject destroyCanvas;
     public GameObject mainCanvas;
-    public GameObject alertCanvas;
     public GameObject gameManager;
-    GameObject toCreate;
-    public static Vector3 toCreatePosition;
-    
-
+    public static GameObject toDestroy;
+    public static Vector3 toDestroyPosition;
+    public GameObject alertCanvas;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Create start");
-        toCreatePosition = Vector3.zero;
+        Debug.Log("Destroy start");
     }
-
+    public GameObject getToDestroy()
+    {
+        return toDestroy;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -29,16 +28,15 @@ public class CreateObject : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            
-            if(Physics.Raycast(ray, out hit))
+
+            if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log("Position : " + hit.point);
-                toCreatePosition = hit.point;
+                toDestroy = hit.collider.gameObject;
+                Debug.Log("toDestroy name : " + toDestroy.name);
+                destroyCanvas.SetActive(false);
                 alertCanvas.SetActive(true);
-                createCanvas.SetActive(false);
             }
         }
-
     }
 }
-

@@ -8,6 +8,7 @@ TagManager:
   - Joystick
   - prefabs
   - localplayers
+  - videoContent
   layers:
   - Default
   - TransparentFX

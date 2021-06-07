@@ -26,24 +26,27 @@ public class VODManager : MonoBehaviour
     public void Search()
     {
         string keyword = keywordIF.text;
-
+        int stopIndex = 0;
         storageRef = storage.GetReferenceFromUrl(GetUrl(keyword));
-        for (int i = 1; i <= 3; i++)
+        bool isFirst = true;
+        for (int i = 1; i <= 5; i++)
         {
-            StorageReference ImagesRef = storageRef.Child($"episoad{i}({i}화)").Child("image");
+            StorageReference ImagesRef = storageRef.Child($"{i}화").Child("image");
             GameObject VODImage = null;
             VODImage = GameObject.Find($"VODImage{i}");
             Image image = VODImage.GetComponent<Image>();
-
+            GameObject[] videoContent = GameObject.FindGameObjectsWithTag("videoContent");
             GameObject VODButton = null;
             VODButton = GameObject.Find($"SelecBtn{i}");
             Text text = VODButton.GetComponentInChildren<Text>();
             text.text = $"{i}화 보기";
-            ImagesRef.Child($"빈센조{i}화.png").GetBytesAsync(1024 * 1024).ContinueWithOnMainThread((Task<byte[]> task) =>
+            ImagesRef.Child($"{i}화.png").GetBytesAsync(1024 * 1024).ContinueWithOnMainThread((Task<byte[]> task) =>
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {
                     Debug.Log(task.Exception.ToString());
+                    videoContent[i].SetActive(false);
+
                 }
                 else
                 {

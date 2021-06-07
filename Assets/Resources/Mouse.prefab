@@ -1423,7 +1423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603ed53fb8fa81948b2a3bacd326603e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nick: {fileID: 0}
+  nick: {fileID: 8192962419665580229}
   nickText: {fileID: 0}
   chatBox: {fileID: 1540550693583334276}
   remainTime: 0
@@ -1480,7 +1480,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &2864009200717346496
 CapsuleCollider:

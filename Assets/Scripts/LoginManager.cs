@@ -35,7 +35,19 @@ public class LoginManager : MonoBehaviourPunCallbacks
     EnterRoomParams froomParams = new EnterRoomParams();
     RoomOptions roomOptions = new RoomOptions();
     AppSettings appset = new AppSettings();
-    
+    public DatabaseReference reference { get; set; }
+
+    public class UserInfo
+    {
+        public string email;
+        public string password;
+
+        public UserInfo(string tempEmail, string tempPassword)
+        {
+            this.email = tempEmail;
+            this.password = tempPassword;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -103,8 +115,15 @@ public class LoginManager : MonoBehaviourPunCallbacks
                     FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
                     nickname = firebaseUser.DisplayName;
                     Debug.Log("nickname is : " + nickname);
+                    FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+                    reference = FirebaseDatabase.DefaultInstance.GetReference("auto/" + nickname); // prefabs 위치 참조
+                    UserInfo tempUser = new UserInfo(idIF.text,passwordIF.text);
+                    string json = JsonUtility.ToJson(tempUser);
+                    reference.SetRawJsonValueAsync(json);
+
                     if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면
                     {
+                        PhotonNetwork.NickName = nickname;
                         connInfoText.text = "내방으로 처음 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
                         //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속

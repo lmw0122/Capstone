@@ -36,6 +36,8 @@ public class GManager : MonoBehaviourPunCallbacks
     public GameObject userifo;
     public InputField serverIF;
     public static GameObject toCreate;
+    public GameObject createCanvas;
+    public GameObject mainCanvas;
 
     public GameObject backTemp;
     bool socketReady;
@@ -53,6 +55,8 @@ public class GManager : MonoBehaviourPunCallbacks
     public PhotonView PV;
     public RawImage testImage;
     public ScrollRect chatRect;
+    public GameObject scrollRect;
+    public GameObject scrollRect2;
     public class PrefabInfo
     {
         public Vector3 tempVector;
@@ -173,11 +177,16 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public void ConnetToServer()
     {
+        findMe();
+    }
+
+    public void findMe()
+    {
         players = GameObject.FindGameObjectsWithTag("localplayers");
-        for(int i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             PhotonView temppv = players[i].GetComponent<PhotonView>();
-            if(temppv.IsMine)
+            if (temppv.IsMine)
             {
                 PV = temppv;
                 Debug.Log("내꺼 찾기 성공");
@@ -188,12 +197,8 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         if (socketReady) return;
 
-        if(serverIF.text == "")
-        {
-            Debug.Log("IP를 입력해주세요");
-            return;
-        }
-        string host = serverIF.text;
+        
+        string host = "172.20.10.2";
         int port = 7777;
 
         try
@@ -232,7 +237,15 @@ public class GManager : MonoBehaviourPunCallbacks
         
 
     }
-    
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        findMe();
+        PV.RPC("setName", RpcTarget.All);
+    }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        PhotonNetwork.DestroyPlayerObjects(otherPlayer);
+    }
     public override void OnJoinedRoom()
     {
         loadPrefabs();
@@ -257,10 +270,7 @@ public class GManager : MonoBehaviourPunCallbacks
         remainPrefabs = GameObject.FindGameObjectsWithTag("prefabs");
         Debug.Log(remainPrefabs.Length);
         for (int i = 0; i < remainPrefabs.Length; i++)
-        {
-            Debug.Log(remainPrefabs[i].name);
-            Debug.Log(remainPrefabs[i].transform.position);
-            Debug.Log(remainPrefabs[i].transform.rotation);
+        { 
             PrefabInfo remainPrefabInfos = new PrefabInfo(remainPrefabs[i].name, remainPrefabs[i].transform.position, remainPrefabs[i].transform.rotation);
             string json = JsonUtility.ToJson(remainPrefabInfos);
             reference.Child(i.ToString()).SetRawJsonValueAsync(json);
@@ -312,6 +322,53 @@ public class GManager : MonoBehaviourPunCallbacks
             }
         });
         Debug.Log("Loading Complete");
+    }
+
+    public void CreatePrefab()
+    {
+        Debug.Log("Create position is : " + CreateObject.toCreatePosition);
+        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 12f, CreateObject.toCreatePosition.z), Quaternion.identity);
+        preCam.enabled = false;
+        mainCam.enabled = true;
+        mainCanvas.SetActive(true);
+        
+        toCreate = null;
+        savePrefabs();
+    }
+    public void CancelCreate()
+    {
+        preCam.enabled = false;
+        mainCam.enabled = true;
+        mainCanvas.SetActive(true);
+        
+    }
+    public void DestroyPrefab()
+    {
+        GameObject tempToD = DestroyMyObject.toDestroy;
+        if (tempToD.tag == "prefabs")
+        {
+            Destroy(tempToD);
+            savePrefabs();
+            preCam.enabled = false;
+            mainCam.enabled = true;
+            mainCanvas.SetActive(true);
+
+
+        }
+        else
+        {
+            preCam.enabled = false;
+            mainCam.enabled = true;
+            mainCanvas.SetActive(true);
+
+        }
+    }
+    public void CancelDestroy()
+    {
+        preCam.enabled = false;
+        mainCam.enabled = true;
+        mainCanvas.SetActive(true);
+
     }
     public void ClickGo()
     {
@@ -389,11 +446,11 @@ public class GManager : MonoBehaviourPunCallbacks
         preCam.enabled = true;
         
         GameObject temp = EventSystem.current.currentSelectedGameObject;
-        Text tempText = temp.GetComponentInParent<Text>();
+        string tempText = temp.transform.parent.name;
         
         for (int i = 0; i < prefabs.Length; i++)
         {
-            if (tempText.text == prefabs[i].name)
+            if (tempText == prefabs[i].name)
                 toCreate = prefabs[i];
                 
         }
@@ -408,5 +465,11 @@ public class GManager : MonoBehaviourPunCallbacks
             if (data != null)
                 Debug.Log("Data from others : " + data);
         }
+        if (scrollRect.GetComponent<RectTransform>().position.x >= 2000f || scrollRect.GetComponent<RectTransform>().position.x <= -2000f)
+            scrollRect.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+
+        if (scrollRect2.GetComponent<RectTransform>().position.x >= 4500f || scrollRect2.GetComponent<RectTransform>().position.x <= -4500f)
+            scrollRect2.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+
     }
 }

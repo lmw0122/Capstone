@@ -19,21 +19,26 @@ public class PlayerManager : MonoBehaviourPun
     void Start()
     {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
-        nick = GameObject.Find("Canvas/Nickname");
-        nickText = nick.GetComponent<Text>();
-        chatBox = GameObject.Find("Canvas/Chat");
-
-        if (photonView.IsMine) // 이 플레이어가 내 플레이어라면 
+        if(photonView.IsMine)
         {
-            nickText.text = LoginManager.nickname;
+            nick = GameObject.Find("Canvas/Nickname");
+            nickText = nick.GetComponent<Text>();
+            chatBox = GameObject.Find("Canvas/Chat");
+
+            nickText.text = PhotonNetwork.NickName;
             nickText.color = Color.blue;
         }
-        else // 나를 제외한 내 방에 있는 플레이어들에 대해
+        else
         {
-            nickText.text = LoginManager.nickname;
-            nickText.color = Color.green;
+            nick = GameObject.Find("Canvas/Nickname");
+            nickText = nick.GetComponent<Text>();
+            chatBox = GameObject.Find("Canvas/Chat");
+
+            nickText.text = photonView.Owner.NickName;
+            nickText.color = Color.black;
         }
-        
+
+
         if (_cameraWork != null)
         {
             if (photonView.IsMine)
@@ -82,6 +87,17 @@ public class PlayerManager : MonoBehaviourPun
     void loadByRemote()
     {
         GameObject.Find("GameManager").GetComponent<GManager>().loadPrefabs();
+    }
+
+    [PunRPC]
+    void setName()
+    {
+        if(!photonView.IsMine)
+        {
+            
+            nickText.color = Color.cyan;
+        }
+        
     }
     // Update is called once per frame
     void Update()
