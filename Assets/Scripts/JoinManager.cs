@@ -6,6 +6,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using Firebase.Unity.Editor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class JoinManager : MonoBehaviour
@@ -17,13 +18,17 @@ public class JoinManager : MonoBehaviour
     public InputField idIF;
     public InputField passwordIF;
     public InputField passwordCheckIF;
+    public GameObject LoginCanvas;
     public GameObject JoinCanvas;
     public GameObject CharacterSelect;
+    public GameObject CharacterConfirm;
 
     public static FirebaseAuth auth;
     public DatabaseReference reference { get; set; }
     private bool nicknameChecked = false;
     private int roomIndex = 0;
+    private static string character;
+    private static string UID = "";
 
     
     class User
@@ -103,14 +108,15 @@ public class JoinManager : MonoBehaviour
                 User user = new User(idIF.text, nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
                 string userJson = JsonUtility.ToJson(user);
                 FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
-                string UID = firebaseUser.UserId;
+                UID = firebaseUser.UserId;
 
                 reference.Child(UID).SetRawJsonValueAsync(userJson);
 
                 connInfoText.text = "회원가입 성공";
                 Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
+                Debug.Log(UID);
                 LoginManager.nickname = nicknameIF.text;
-                CreateChatRoom(UID);
+                CreateChatRoom();
             }
             else
             {
@@ -120,7 +126,7 @@ public class JoinManager : MonoBehaviour
         });
     }
 
-    public void CreateChatRoom(string UID)
+    public void CreateChatRoom()
     {
         reference = FirebaseDatabase.DefaultInstance.GetReference("chatRooms");
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
@@ -131,14 +137,21 @@ public class JoinManager : MonoBehaviour
             }
             else if (task.IsCompleted)
             {
+                Debug.Log(roomIndex);
                 DataSnapshot snapshot = task.Result;
-                IDictionary temp = (IDictionary)snapshot.Value;
-                roomIndex = temp.Count;
+                Debug.Log(task.Result);
+                if (snapshot.Value != null)
+                {
+                    IDictionary temp = (IDictionary)snapshot.Value;
+                    roomIndex = temp.Count;
+                }
+                Debug.Log(roomIndex);
                 ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "", nicknameIF.text + "의 방", UID, nicknameIF.text + "의 방", roomIndex);
                 var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
                 reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
                 Debug.Log("채팅방 생성 완료");
                 SetPlayerNameAndImage(nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                HumanAnimatorController.isJoin = true;
                 JoinCanvas.SetActive(false);
                 CharacterSelect.SetActive(true);
             }
@@ -205,6 +218,24 @@ public class JoinManager : MonoBehaviour
         }
     }
 
-
-
+    public void Confirm()
+    {
+        reference = FirebaseDatabase.DefaultInstance.GetReference("users");
+        reference.Child(UID).Child("character").SetValueAsync(character);
+        CharacterConfirm.SetActive(false);
+        LoginCanvas.SetActive(true);
+        HumanAnimatorController.isJoin = false;
+    }
+    public void Cancel()
+    {
+        CharacterConfirm.SetActive(false);
+        CharacterSelect.SetActive(true);
+    }
+    public void SelectCharacter()
+    {
+        GameObject temp = EventSystem.current.currentSelectedGameObject;
+        character = temp.name;
+        CharacterSelect.SetActive(false);
+        CharacterConfirm.SetActive(true);
+    }
 }

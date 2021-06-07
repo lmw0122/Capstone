@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/forPrefab.physicMaterial.meta
+guid: 2ef722be820190d498ceefb7ecaa3c8f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 13400000
+=======
+guid: 696526986a5811d4192f6a7893822c3e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+>>>>>>> 8e914bdb8f375cf7d34218ab115594367b9b9aee:Assets/Animations/BusinessmanAnimatorController.controller.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
