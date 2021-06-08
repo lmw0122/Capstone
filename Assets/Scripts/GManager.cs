@@ -187,7 +187,17 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public void ConnetToServer()
     {
-        findMe();
+        
+        players = GameObject.FindGameObjectsWithTag("localplayers");
+        for (int i = 0; i < players.Length; i++)
+        {
+            PhotonView temppv = players[i].GetComponent<PhotonView>();
+            if (temppv.IsMine)
+            {
+                PV = temppv;
+            }
+        }
+        Debug.Log("meme");
     }
 
     public void findMe()
@@ -207,7 +217,7 @@ public class GManager : MonoBehaviourPunCallbacks
         if (socketReady) return;
 
         
-        string host = "172.20.10.2";
+        string host = LoginManager.ipAdd;
         int port = 7777;
 
         try

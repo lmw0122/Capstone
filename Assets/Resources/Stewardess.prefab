@@ -1256,7 +1256,6 @@ MonoBehaviour:
   chatBox: {fileID: 9192458704916593417}
   animator: {fileID: 0}
   remainTime: 0
-  forVOD: {fileID: 0}
 --- !u!114 &-136087467708225684
 MonoBehaviour:
   m_ObjectHideFlags: 0
