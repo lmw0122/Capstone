@@ -65,7 +65,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     {
         Debug.Log(isFirst);
         //connInfoText.text = "마스터에 연결됨";
-        connInfoText.text = "마스터에 연결됨";
+        connInfoText.text = "환영합니다";
         
         if(GManager.fNickname != "") // 2번 경우, fNickname은 내가 마이룸에서 가고 싶은 친구 검색했을 때 그 닉네임
         {
@@ -89,7 +89,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause) // 1,2,3의 경우에 마스터 서버로 접속 못한 경우 자동 실행되는 함수(예외 처리용?)
     {
         
-        connInfoText.text = "마스터에 접속 실패";
+        connInfoText.text = "접속 실패";
 
         PhotonNetwork.ConnectUsingSettings();// 다시 마스터에 접속 시도
     }
@@ -112,7 +112,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
             auth.SignInWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
             task =>
             {
-                connInfoText.text = "로그인중";
+                connInfoText.text = "로그인 중";
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) // 문제 없이 Task 실행되었을 경우
                 {
                     ipAdd = ipIF.text;
@@ -128,13 +128,13 @@ public class LoginManager : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면
                     {
                         PhotonNetwork.NickName = nickname;
-                        connInfoText.text = "내방으로 처음 이동중";
+                        connInfoText.text = "방으로 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
                         //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                     }
                     else //마스터에 접속 안되어 있다면
                     {
-                        connInfoText.text = "마스터에 접속 실패";
+                        connInfoText.text = "접속 실패";
                         PhotonNetwork.ConnectUsingSettings();
                     }
                     Debug.Log(idIF.text + " 로 로그인 하셨습니다.");

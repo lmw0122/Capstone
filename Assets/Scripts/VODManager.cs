@@ -79,11 +79,11 @@ public class VODManager : MonoBehaviour
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
         dictionary.Add("ºó¼¾Á¶", "gs://project-6629124072636312930.appspot.com/ºó¼¾Á¶");
+        dictionary.Add("·Î½ºÄð", "gs://project-6629124072636312930.appspot.com/·Î½ºÄð");
         foreach(KeyValuePair<string, string> items in dictionary)
         {
             if (items.Key.Contains(title) == true)
             {
-                Debug.Log("URL is " + items.Value);
                 return (items.Value);
             }
         }
