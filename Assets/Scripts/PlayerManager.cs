@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviourPun
     public Animator animator;
     public float remainTime;
     private float rotationSpeed = 5.0f;
-
+    public GameObject forVOD;
     
     private Vector3 movePosition;
     // Start is called before the first frame update
@@ -79,14 +79,8 @@ public class PlayerManager : MonoBehaviourPun
     [PunRPC]
     void sendRPC()
     {
-        GameObject.Find("GameManager").GetComponent<GManager>().SendURL();
+        forVOD.GetComponent<serverManager>().SendURL();
     }
-    [PunRPC]
-    void loadByRemote()
-    {
-        GameObject.Find("GameManager").GetComponent<GManager>().loadPrefabs();
-    }
-
     [PunRPC]
     void setName()
     {
@@ -122,8 +116,8 @@ public class PlayerManager : MonoBehaviourPun
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, JoystickManager.angle, 0), rotationSpeed * Time.deltaTime);
 
         }
-        tempG.transform.GetChild(0).transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(0, 6f, 0));
-        chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-3f, 6f, 0));
+        tempG.transform.GetChild(0).transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(0, 2f, 0));
+        chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-1f, 2.2f, 0));
             
     }
 

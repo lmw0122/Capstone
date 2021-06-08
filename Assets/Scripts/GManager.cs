@@ -12,8 +12,6 @@ using Firebase.Unity.Editor;
 using Firebase.Extensions;
 using UnityEngine.EventSystems;
 using System;
-using System.Net.Sockets;
-using System.IO;
 using TMPro;
 using UnityEngine.Networking;
 
@@ -39,14 +37,6 @@ public class GManager : MonoBehaviourPunCallbacks
     public GameObject mainCanvas;
 
     public GameObject backTemp;
-    bool socketReady;
-    TcpClient socket;
-    NetworkStream stream;
-    StreamWriter writer;
-    StreamReader reader;
-    public string URLforsend;
-    public string URLforme;
-
     public string imageUrl = "";
     
     public Text infoText;
@@ -69,7 +59,6 @@ public class GManager : MonoBehaviourPunCallbacks
             this.tempVector = tempVector;
         }
     }
-
     public DatabaseReference reference { get; set; }
 
     public List<string> friendList = new List<string>();
@@ -99,8 +88,6 @@ public class GManager : MonoBehaviourPunCallbacks
                 SpawnPlayer(snapshot.Value.ToString());
             }
         });
-        URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
-        URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
         
     }
@@ -122,7 +109,7 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                Debug.Log("사진 불러오기 실패");
+                
             }
             else if (task.IsCompleted)
             {
@@ -159,16 +146,11 @@ public class GManager : MonoBehaviourPunCallbacks
             testImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
         }
     }
-    private void GetImage(string mastername)
-    {
-        
-
-    }
     public void ShowMessage()
     {
         string mess = textIF.text.ToString();
         textIF.text = "";
-
+        Debug.Log("is this me?" + photonView.name);
         players = GameObject.FindGameObjectsWithTag("localplayers");
         for (int i = 0; i < players.Length; i++)
         {
@@ -191,97 +173,12 @@ public class GManager : MonoBehaviourPunCallbacks
         //채팅방 위치 초기화 + 스크롤 보이게
         
     }
-    public void ConnetToServer()
-    {
-        findMe();
-    }
-
-    public void findMe()
-    {
-        players = GameObject.FindGameObjectsWithTag("localplayers");
-        for (int i = 0; i < players.Length; i++)
-        {
-            PhotonView temppv = players[i].GetComponent<PhotonView>();
-            if (temppv.IsMine)
-            {
-                PV = temppv;
-            }
-        }
-    }
-    public void SendURL()
-    {
-        if (socketReady) return;
-
-        
-        string host = "172.20.10.2";
-        int port = 7777;
-
-        try
-        {
-            socket = new TcpClient(host, port);
-            stream = socket.GetStream();
-            writer = new StreamWriter(stream);
-            reader = new StreamReader(stream);
-            Debug.Log("연결 성공");
-            infoText.text = "연결 성공";
-            socketReady = true;
-        }
-        catch (Exception e)
-        {
-            Debug.Log($"소켓 에러 : {e.Message}");
-        }
-
-        URLforme = URLforme + "/" + PhotonNetwork.CurrentRoom.Name;
-        URLforsend = URLforsend + "/" + PhotonNetwork.CurrentRoom.Name;
-        Debug.Log("URL : " + URLforsend);
-        writer.WriteLine(URLforsend);
-        writer.Flush();
-
-        Application.OpenURL(URLforme);
-    }
     
-    public void ClickVOD()
-    {
-        PV.RPC("sendRPC", RpcTarget.All);
-        Debug.Log("rpc sended");
-        SendURL();
-    }
+    
+    
     private void SpawnPlayer (string prefabname)
     {
-        if (prefabname == "Stewardess")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Stewardess", new Vector3(0, 8.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Teacher")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Teacher", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Doctor")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Doctor", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "PoliceOfficer")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Police Officer", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Cook")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Cook", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Businessman")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Businessman", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-
-        // PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        
-
+        PhotonNetwork.Instantiate(prefabname, new Vector3(0, 9.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -375,7 +272,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public void CreatePrefab()
     {
         Debug.Log("Create position is : " + CreateObject.toCreatePosition);
-        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 8.483022f, CreateObject.toCreatePosition.z), Quaternion.identity);
+        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 9.483022f, CreateObject.toCreatePosition.z), Quaternion.identity);
         preCam.enabled = false;
         mainCam.enabled = true;
         mainCanvas.SetActive(true);
@@ -530,12 +427,7 @@ public class GManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (socketReady && stream.DataAvailable)
-        {
-            string data = reader.ReadLine();
-            if (data != null)
-                Debug.Log("Data from others : " + data);
-        }
+        
         if (scrollRect.GetComponent<RectTransform>().position.x >= 2000f || scrollRect.GetComponent<RectTransform>().position.x <= -2000f)
             scrollRect.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
 

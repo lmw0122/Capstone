@@ -22,6 +22,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public InputField idIF;
     [SerializeField]
     public InputField passwordIF;
+    public InputField ipIF;
 
     public static FirebaseAuth auth;
     // 전체적인 구조
@@ -30,11 +31,13 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public static bool isFirst = true;
     int roomIndex = 0;
     public static string nickname = "";
+    public static string ipAdd = "";
     public static LoadBalancingClient client;
     EnterRoomParams roomParams = new EnterRoomParams();
     EnterRoomParams froomParams = new EnterRoomParams();
     RoomOptions roomOptions = new RoomOptions();
     AppSettings appset = new AppSettings();
+    
     public DatabaseReference reference { get; set; }
 
     public class UserInfo
@@ -112,6 +115,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
                 connInfoText.text = "로그인중";
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) // 문제 없이 Task 실행되었을 경우
                 {
+                    ipAdd = ipIF.text;
                     FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
                     nickname = firebaseUser.DisplayName;
                     Debug.Log("nickname is : " + nickname);
