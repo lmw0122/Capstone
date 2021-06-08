@@ -114,7 +114,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
                 {
                     FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
                     nickname = firebaseUser.DisplayName;
-                    Debug.Log("nickname is : " + nickname);
+                    Debug.Log(firebaseUser.UserId);
                     FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
                     reference = FirebaseDatabase.DefaultInstance.GetReference("auto/" + nickname); // prefabs 위치 참조
                     UserInfo tempUser = new UserInfo(idIF.text,passwordIF.text);

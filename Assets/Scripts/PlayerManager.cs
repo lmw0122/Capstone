@@ -98,12 +98,6 @@ public class PlayerManager : MonoBehaviourPun
         
     }
 
-    [PunRPC]
-    public void PlayAnimation(string animation)
-    {
-        animator.SetTrigger(animation);
-    }
-
     // Update is called once per frame
     void Update()
     {

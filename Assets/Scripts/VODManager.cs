@@ -78,7 +78,7 @@ public class VODManager : MonoBehaviour
     {
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
-        dictionary.Add("vincenzo(ºó¼¾Á¶)", "gs://project-6629124072636312930.appspot.com/vincenzo(ºó¼¾Á¶)");
+        dictionary.Add("ºó¼¾Á¶", "gs://project-6629124072636312930.appspot.com/ºó¼¾Á¶");
         foreach(KeyValuePair<string, string> items in dictionary)
         {
             if (items.Key.Contains(title) == true)

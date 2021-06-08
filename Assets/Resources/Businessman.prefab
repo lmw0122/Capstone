@@ -2050,7 +2050,7 @@ GameObject:
   - component: {fileID: -4944226508275013844}
   - component: {fileID: -769777981807758921}
   - component: {fileID: -7947286731593533863}
-  - component: {fileID: 9149233487831138234}
+  - component: {fileID: 2239162971105874600}
   m_Layer: 0
   m_Name: Businessman
   m_TagString: localplayers
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 8392458936962567355}
-  - {fileID: 9149233487831138234}
+  - {fileID: 2239162971105874600}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2251,7 +2251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f4e134d9d44c49a24d8d2251640d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9149233487831138234
+--- !u!114 &2239162971105874600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2267,22 +2267,22 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: isJoin
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: isTouch
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: animation1
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: animation2
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: animation3
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: animation4
   m_SynchronizeLayers:
   - SynchronizeType: 1

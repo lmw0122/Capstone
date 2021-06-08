@@ -248,40 +248,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     private void SpawnPlayer (string prefabname)
     {
-        if (prefabname == "Stewardess")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Stewardess", new Vector3(0, 8.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Teacher")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Teacher", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Doctor")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Doctor", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "PoliceOfficer")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Police Officer", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Cook")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Cook", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-        else if (prefabname == "Businessman")
-        {
-            Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Businessman", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        }
-
-        // PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
-        
-
+        PhotonNetwork.Instantiate(prefabname, new Vector3(0, 8.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -514,11 +481,12 @@ public class GManager : MonoBehaviourPunCallbacks
             {
                 thisisme = players[i];
                 PV = temppv;
+                break;
             }
         }
         if (thisisme)
         {
-            // PV.RPC("PlayAnimation", RpcTarget.All);
+            PV.RPC("PlayAnimation", RpcTarget.All, animation);
         }
         else
         {

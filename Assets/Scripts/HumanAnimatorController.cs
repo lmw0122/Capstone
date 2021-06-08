@@ -13,15 +13,16 @@ public class HumanAnimatorController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    
+
+    [PunRPC]
+    public void PlayAnimation(string animation)
+    {
+        animator.SetTrigger(animation);
+    }
     // Update is called once per frame
     void Update()
     {
         animator.SetBool("isJoin", isJoin);
         animator.SetBool("isTouch", JoystickManager.isTouch);
-        if (animationNum != 0)
-        {
-            string a = "animation" + animationNum;
-        }
     }
 }

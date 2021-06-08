@@ -11,6 +11,8 @@ public class EmotionManager : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     [SerializeField]
     private RectTransform rect_Joystick;
 
+    public GManager gManager;
+
     private float radius;
     [SerializeField] private float moveSpeed;
 
@@ -78,7 +80,6 @@ public class EmotionManager : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public void OnPointerUp(PointerEventData eventData)
     {
         rect_Joystick.localPosition = Vector3.zero;
-        HumanAnimatorController.animationNum = num;
-        // GManager.SetAnimation("animation " + num);
+        gManager.GetComponent<GManager>().SetAnimation("animation" + num);
     }
 }

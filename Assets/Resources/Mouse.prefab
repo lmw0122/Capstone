@@ -1423,9 +1423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603ed53fb8fa81948b2a3bacd326603e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nick: {fileID: 8192962419665580229}
+  tempG: {fileID: 0}
   nickText: {fileID: 0}
   chatBox: {fileID: 1540550693583334276}
+  animator: {fileID: 0}
   remainTime: 0
 --- !u!114 &5982630271616423382
 MonoBehaviour:

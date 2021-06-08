@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
@@ -30,7 +32,7 @@ public class JoinManager : MonoBehaviour
     private static string character;
     private static string UID = "";
 
-    
+    public string imageURL;
     class User
     {
         public string email;
@@ -105,7 +107,8 @@ public class JoinManager : MonoBehaviour
         {
             if (!task.IsCanceled && !task.IsFaulted)
             {
-                User user = new User(idIF.text, nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                imageURL = HashEmailForGravatar(idIF.text);
+                User user = new User(idIF.text, nicknameIF.text, $"http://gravatar.com/avatar/{imageURL}?d=identicon");
                 string userJson = JsonUtility.ToJson(user);
                 FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
                 UID = firebaseUser.UserId;
@@ -146,11 +149,11 @@ public class JoinManager : MonoBehaviour
                     roomIndex = temp.Count;
                 }
                 Debug.Log(roomIndex);
-                ChatRoom chatRoom = new ChatRoom("http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon", nicknameIF.text, "", nicknameIF.text + "의 방", UID, nicknameIF.text + "의 방", roomIndex);
+                ChatRoom chatRoom = new ChatRoom($"http://gravatar.com/avatar/{imageURL}?d=identicon", nicknameIF.text, "", nicknameIF.text + "의 방", UID, nicknameIF.text + "의 방", roomIndex);
                 var chatRoomJson = StringSerializationAPI.Serialize(typeof(ChatRoom), chatRoom);
                 reference.Child(UID).SetRawJsonValueAsync(chatRoomJson);
                 Debug.Log("채팅방 생성 완료");
-                SetPlayerNameAndImage(nicknameIF.text, "http://gravatar.com/avatar/6c3b875d4cca14d87106af96bd2951e5?d=identicon");
+                SetPlayerNameAndImage(nicknameIF.text, $"http://gravatar.com/avatar/{imageURL}?d=identicon");
                 HumanAnimatorController.isJoin = true;
                 JoinCanvas.SetActive(false);
                 CharacterSelect.SetActive(true);
@@ -237,4 +240,27 @@ public class JoinManager : MonoBehaviour
         CharacterSelect.SetActive(false);
         CharacterConfirm.SetActive(true);
     }
+    
+    public string HashEmailForGravatar(string email)
+    {
+        // Create a new instance of the MD5CryptoServiceProvider object.  
+        MD5 md5Hasher = MD5.Create();
+ 
+        // Convert the input string to a byte array and compute the hash.  
+        byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(email));
+ 
+        // Create a new Stringbuilder to collect the bytes  
+        // and create a string.  
+        StringBuilder sBuilder = new StringBuilder();
+ 
+        // Loop through each byte of the hashed data  
+        // and format each one as a hexadecimal string.  
+        for(int i = 0; i < data.Length; i++)
+        {
+            sBuilder.Append(data[i].ToString("x2"));
+        }
+ 
+        return sBuilder.ToString();  // Return the hexadecimal string. 
+    }
+
 }

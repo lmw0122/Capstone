@@ -54,7 +54,6 @@ public class DatabaseAPI : MonoBehaviour
     public void CheckToggle()
     {
         Toggle theActiveToggle = toggleGoup.ActiveToggles().FirstOrDefault();
-        Debug.Log("It worked! " + theActiveToggle.gameObject.name);
         if (theActiveToggle.gameObject.name == "Public")
         {
             GetKey("admin");

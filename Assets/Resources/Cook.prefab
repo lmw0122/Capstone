@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: -7822572323962247739}
   - component: {fileID: -5458003128474305070}
   - component: {fileID: 8277273275526496466}
+  - component: {fileID: 6848030743791122385}
   m_Layer: 0
   m_Name: Cook
   m_TagString: localplayers
@@ -706,6 +707,7 @@ MonoBehaviour:
   tempG: {fileID: 0}
   nickText: {fileID: 0}
   chatBox: {fileID: 9192458704916593417, guid: bbd7b329cea3d324b99e06377d1667ae, type: 3}
+  animator: {fileID: 0}
   remainTime: 0
 --- !u!114 &9181287164901464227
 MonoBehaviour:
@@ -743,6 +745,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 9181287164901464227}
+  - {fileID: 6848030743791122385}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -846,6 +849,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f4e134d9d44c49a24d8d2251640d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6848030743791122385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2951878271927031533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: isJoin
+  - Type: 4
+    SynchronizeType: 2
+    Name: isTouch
+  - Type: 9
+    SynchronizeType: 0
+    Name: animation1
+  - Type: 9
+    SynchronizeType: 0
+    Name: animation2
+  - Type: 9
+    SynchronizeType: 0
+    Name: animation3
+  - Type: 9
+    SynchronizeType: 0
+    Name: animation4
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &3111301020977939262
 GameObject:
   m_ObjectHideFlags: 0
