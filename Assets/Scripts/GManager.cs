@@ -15,7 +15,6 @@ using System;
 using System.Net.Sockets;
 using System.IO;
 using TMPro;
-using System.IdentityModel.Tokens.Jwt;
 using UnityEngine.Networking;
 
 public class GManager : MonoBehaviourPunCallbacks
@@ -49,7 +48,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public string URLforme;
 
     public string imageUrl = "";
-    private string token;
+    
     public Text infoText;
     public TMP_InputField textIF;
     public PhotonView PV;
@@ -92,7 +91,7 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                Debug.Log("failed");
+                
             }
             else if (task.IsCompleted)
             {
@@ -100,26 +99,30 @@ public class GManager : MonoBehaviourPunCallbacks
                 SpawnPlayer(snapshot.Value.ToString());
             }
         });
-            
-        if(PhotonNetwork.CurrentRoom.Name == LoginManager.nickname)
-        {
-            loadPrefabs();
-        }
-        setUserinfo();
         URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
+        
+    }
+    private void Awake()
+    {
+        setUserinfo();
+        if (PhotonNetwork.CurrentRoom.Name == LoginManager.nickname)
+        {
+            loadPrefabs();
+        }
+
     }
     public void setUserinfo()
     {
-        Debug.Log("name is : "+LoginManager.nickname);
+        
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         userifo.GetComponentInChildren<Text>().text = LoginManager.nickname;
         reference.Child("users").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                Debug.Log("aht qnffjdhkTdma");
+                Debug.Log("사진 불러오기 실패");
             }
             else if (task.IsCompleted)
             {
@@ -131,7 +134,7 @@ public class GManager : MonoBehaviourPunCallbacks
                     if (tempName.Equals(LoginManager.nickname))
                     {
                         imageUrl = (string)data.Child("image").Value;
-                        Debug.Log("image url : " + imageUrl);
+                        
                         StartCoroutine(CoLoadImageTexture(imageUrl));
                         //Debug.Log("texture is : " + testImage.texture.ToString());
                         Texture tempTextture = testImage.texture;
@@ -166,7 +169,7 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         string mess = textIF.text.ToString();
         textIF.text = "";
-        Debug.Log("mess is : " + mess);
+
         players = GameObject.FindGameObjectsWithTag("localplayers");
         for (int i = 0; i < players.Length; i++)
         {
@@ -180,8 +183,7 @@ public class GManager : MonoBehaviourPunCallbacks
         }
         if (thisisme)
         {
-            PlayerManager tempPM = thisisme.GetComponent<PlayerManager>();
-            tempPM.showChat(mess);
+            PV.RPC("showChat",RpcTarget.All,mess);
         }
         else
         {
@@ -205,7 +207,6 @@ public class GManager : MonoBehaviourPunCallbacks
             if (temppv.IsMine)
             {
                 PV = temppv;
-                Debug.Log("내꺼 찾기 성공");
             }
         }
     }
@@ -252,32 +253,32 @@ public class GManager : MonoBehaviourPunCallbacks
         if (prefabname == "Stewardess")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Stewardess", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Stewardess", new Vector3(0, 8.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
         else if (prefabname == "Teacher")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Teacher", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Teacher", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
         else if (prefabname == "Doctor")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Doctor", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Doctor", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
         else if (prefabname == "PoliceOfficer")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Police Officer", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Police Officer", new Vector3(0,8f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
         else if (prefabname == "Cook")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Cook", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Cook", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
         else if (prefabname == "Businessman")
         {
             Debug.Log(prefabname);
-            PhotonNetwork.Instantiate("Businessman", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+            PhotonNetwork.Instantiate("Businessman", new Vector3(0,5f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
         }
 
         // PhotonNetwork.Instantiate("Mouse", new Vector3(0,10f,0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
@@ -286,8 +287,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        findMe();
-        PV.RPC("setName", RpcTarget.All);
+        
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
@@ -295,7 +295,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        loadPrefabs();
+        //loadPrefabs();
         Debug.Log("join room");
     }
     public override void OnLeftRoom()
@@ -338,22 +338,25 @@ public class GManager : MonoBehaviourPunCallbacks
             }
             else if (task.IsCompleted)
             {
+                
                 DataSnapshot snapshot = task.Result;
+                Debug.Log(snapshot);
                 foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
                 {
                     string tempName = (string)data.Child("tempName").Value;
+                    Debug.Log("got name");
                     IDictionary tempQDic = (IDictionary)data.Child("tempQ").Value;
+                    Debug.Log("got Q");
                     IDictionary tempVecDic = (IDictionary)data.Child("tempVector").Value;
-  
+                    Debug.Log("got V");
+
                     float tempx = Convert.ToSingle(tempVecDic["x"]);
                     float tempy = Convert.ToSingle(tempVecDic["y"]);
                     float tempz = Convert.ToSingle(tempVecDic["z"]);
              
                     Vector3 tempPosition = new Vector3(tempx,tempy,tempz);
                     Quaternion tempQ = new Quaternion(Convert.ToSingle(tempQDic["x"]), Convert.ToSingle(tempQDic["y"]), Convert.ToSingle(tempQDic["z"]), Convert.ToSingle(tempQDic["w"]));
-                    Debug.Log("name is : " + tempName);
-                    Debug.Log("vector is : " + tempPosition);
-                    Debug.Log("Q is : " + tempQ);
+                    
 
                     string name = tempName.Split('(')[0];
                     Debug.Log("origin name is : " + name);
@@ -361,20 +364,20 @@ public class GManager : MonoBehaviourPunCallbacks
                     for(int i =0;i < prefabs.Length; i++)
                     {
                         if(name == prefabs[i].name)
-                            Instantiate(prefabs[i], tempPosition, tempQ);
+                            PhotonNetwork.Instantiate(name, tempPosition, tempQ);
                     }
-
+                    Debug.Log("Loading Complete");
                 }
-                //string tempFnames = snapshot.Value.ToString();
+                
             }
         });
-        Debug.Log("Loading Complete");
+        
     }
 
     public void CreatePrefab()
     {
         Debug.Log("Create position is : " + CreateObject.toCreatePosition);
-        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 12f, CreateObject.toCreatePosition.z), Quaternion.identity);
+        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 8.483022f, CreateObject.toCreatePosition.z), Quaternion.identity);
         preCam.enabled = false;
         mainCam.enabled = true;
         mainCanvas.SetActive(true);

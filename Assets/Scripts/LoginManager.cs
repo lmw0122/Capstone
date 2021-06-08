@@ -157,7 +157,8 @@ public class LoginManager : MonoBehaviourPunCallbacks
        
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
 
-        PhotonNetwork.LoadLevel("Main");// Main ¾À ºÒ·¯¿È(¸¶ÀÌ·ë ¾À)
+        PhotonNetwork.LoadLevel("Main");
+        // Main ¾À ºÒ·¯¿È(¸¶ÀÌ·ë ¾À)
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
