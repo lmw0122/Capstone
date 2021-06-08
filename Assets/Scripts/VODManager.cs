@@ -29,7 +29,7 @@ public class VODManager : MonoBehaviour
         int stopIndex = 0;
         storageRef = storage.GetReferenceFromUrl(GetUrl(keyword));
         bool isFirst = true;
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 3; i++)
         {
             StorageReference ImagesRef = storageRef.Child($"{i}ȭ").Child("image");
             GameObject VODImage = null;

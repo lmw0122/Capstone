@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviourPun
     public Animator animator;
     public float remainTime;
     private float rotationSpeed = 5.0f;
-    public GameObject forVOD;
+    
     
     private Vector3 movePosition;
     // Start is called before the first frame update
@@ -77,20 +77,12 @@ public class PlayerManager : MonoBehaviourPun
         remainTime = 1800 * Time.deltaTime;
     }
     [PunRPC]
-    void sendRPC()
+    public void sendRPC()
     {
-        forVOD.GetComponent<serverManager>().SendURL();
+        GameObject.Find("GameManager").GetComponent<GManager>().SendURL();
+       
     }
-    [PunRPC]
-    void setName()
-    {
-        if(!photonView.IsMine)
-        {
-            
-            nickText.color = Color.cyan;
-        }
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
