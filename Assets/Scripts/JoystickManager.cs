@@ -48,13 +48,12 @@ public class JoystickManager : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         isTouch = true;
-        Debug.Log("´©¸£±â ½ÃÀÛ");
+        
 
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("´­·¶´Ù ¶«");
         isTouch = false;
         rect_Joystick.localPosition = Vector3.zero;
         movePosition = Vector3.zero;
