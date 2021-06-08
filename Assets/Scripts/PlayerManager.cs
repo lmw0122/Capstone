@@ -7,9 +7,10 @@ using UnityEngine.UI;
 // player의 속성들을 설정하는 스크립트 
 public class PlayerManager : MonoBehaviourPun 
 {
-    public GameObject nick;
+    public GameObject tempG;
     public Text nickText;
     public GameObject chatBox;
+    public Animator animator;
     public float remainTime;
     private float rotationSpeed = 5.0f;
 
@@ -19,23 +20,22 @@ public class PlayerManager : MonoBehaviourPun
     void Start()
     {
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+        animator = GetComponent<Animator>();
         if(photonView.IsMine)
         {
-            nick = GameObject.Find("Canvas/Nickname");
-            nickText = nick.GetComponent<Text>();
-            chatBox = GameObject.Find("Canvas/Chat");
-
+            tempG = this.transform.GetChild(0).gameObject;
+            nickText = tempG.transform.GetChild(0).GetComponent<Text>();
+            chatBox = tempG.transform.GetChild(1).gameObject;
             nickText.text = PhotonNetwork.NickName;
             nickText.color = Color.blue;
         }
         else
         {
-            nick = GameObject.Find("Canvas/Nickname");
-            nickText = nick.GetComponent<Text>();
-            chatBox = GameObject.Find("Canvas/Chat");
-
-            nickText.text = photonView.Owner.NickName;
-            nickText.color = Color.black;
+            tempG = this.transform.GetChild(0).gameObject;
+            nickText = tempG.transform.GetChild(0).GetComponent<Text>();
+            chatBox = tempG.transform.GetChild(1).gameObject;
+            nickText.text = this.photonView.Owner.NickName;
+            nickText.color = Color.green;
         }
 
 
@@ -52,11 +52,10 @@ public class PlayerManager : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void showChat(string message)
     {
         int j = message.Length;
-        Debug.Log("message : " + message);
-        Debug.Log("j : " + j);
 
         if (j >= 10)
         {
@@ -71,7 +70,6 @@ public class PlayerManager : MonoBehaviourPun
             }
         }
 
-        Debug.Log("Message is : " + message);
         chatBox.SetActive(true);
         chatBox.GetComponentInChildren<Text>().text = message;
         Debug.Log(chatBox.GetComponentInChildren<Text>().text);
@@ -99,6 +97,13 @@ public class PlayerManager : MonoBehaviourPun
         }
         
     }
+
+    [PunRPC]
+    public void PlayAnimation(string animation)
+    {
+        animator.SetTrigger(animation);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -110,20 +115,16 @@ public class PlayerManager : MonoBehaviourPun
             chatBox.SetActive(false);
             remainTime = 0;
         }
-        if (!photonView.IsMine) // 내 플레이어에 대해서만 코딩할것이라서 나머지는 리턴한다 
+        if (photonView.IsMine) // 내 플레이어에 대해서만 코딩할것이라서 나머지는 리턴한다 
         {
-            return;
-        }
-        else
-        {
-            nick.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(0, 5f, 0));
-            chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-3f, 5f, 0));
-
             // JoystickManager 스크립트에서 계산된 movePosition값을 계산하는데 그걸 매 프레임마다 적용해주는 코드 
             transform.position += JoystickManager.movePosition;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, JoystickManager.angle, 0), rotationSpeed * Time.deltaTime);
-            
+
         }
+        tempG.transform.GetChild(0).transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(0, 6f, 0));
+        chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-3f, 6f, 0));
+            
     }
 
     

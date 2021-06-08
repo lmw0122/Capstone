@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 3359929590605204112}
   m_Father: {fileID: 5423208331230355946}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307765569845754260
 GameObject:
@@ -248,7 +248,7 @@ RectTransform:
   - {fileID: 8490797817994453682}
   - {fileID: 1967009222402294315}
   m_Father: {fileID: 5423208331230355946}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -978,7 +978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8081639844171305588
@@ -1214,9 +1214,9 @@ Transform:
   m_LocalPosition: {x: 1.5, y: 0, z: 3}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
+  - {fileID: 4741454646179820851}
   - {fileID: 8182682130018918481}
   - {fileID: 7675272059321802268}
-  - {fileID: 4741454646179820851}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1251,9 +1251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603ed53fb8fa81948b2a3bacd326603e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nick: {fileID: 0}
+  tempG: {fileID: 0}
   nickText: {fileID: 0}
   chatBox: {fileID: 9192458704916593417}
+  animator: {fileID: 0}
   remainTime: 0
 --- !u!114 &-136087467708225684
 MonoBehaviour:
@@ -1411,7 +1412,7 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isJoin
   - Type: 4
     SynchronizeType: 1
@@ -1462,7 +1463,7 @@ Transform:
   - {fileID: 5168080446656409238}
   - {fileID: 2697056354450054040}
   m_Father: {fileID: 5423208331230355946}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1820756439991430049
 SkinnedMeshRenderer:
@@ -2567,7 +2568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &4407895887879422251

@@ -311,7 +311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &7673125422575010682
@@ -580,7 +580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1635962075278496639
@@ -996,7 +996,7 @@ Transform:
   - {fileID: 2051319785353568243}
   - {fileID: 2178550262301938716}
   m_Father: {fileID: 9146129391841136435}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &7122292257407441518
 SkinnedMeshRenderer:
@@ -1194,7 +1194,7 @@ RectTransform:
   - {fileID: 9102923324273873813}
   - {fileID: 1093334839905416915}
   m_Father: {fileID: 9146129391841136435}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1446,7 +1446,7 @@ Transform:
   m_Children:
   - {fileID: 3672676758097345210}
   m_Father: {fileID: 9146129391841136435}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5119081930343935467
 GameObject:
@@ -2050,6 +2050,7 @@ GameObject:
   - component: {fileID: -4944226508275013844}
   - component: {fileID: -769777981807758921}
   - component: {fileID: -7947286731593533863}
+  - component: {fileID: 9149233487831138234}
   m_Layer: 0
   m_Name: Businessman
   m_TagString: localplayers
@@ -2068,9 +2069,9 @@ Transform:
   m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
+  - {fileID: 3358644902353012553}
   - {fileID: 6588415684865999192}
   - {fileID: 6258715555217964559}
-  - {fileID: 3358644902353012553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2084,7 +2085,7 @@ Animator:
   m_GameObject: {fileID: 8477538758076601737}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e004221b5ecf54f9b98a0b92e6152a56, type: 3}
-  m_Controller: {fileID: 9100000, guid: 696526986a5811d4192f6a7893822c3e, type: 2}
+  m_Controller: {fileID: 9100000, guid: cf6ec80009ae3784cabd9bb83f924bae, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2105,9 +2106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603ed53fb8fa81948b2a3bacd326603e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nick: {fileID: 0}
+  tempG: {fileID: 0}
   nickText: {fileID: 0}
   chatBox: {fileID: 9192458704916593417, guid: bbd7b329cea3d324b99e06377d1667ae, type: 3}
+  animator: {fileID: 0}
   remainTime: 0
 --- !u!114 &8392458936962567355
 MonoBehaviour:
@@ -2145,6 +2147,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 8392458936962567355}
+  - {fileID: 9149233487831138234}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2248,6 +2251,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f4e134d9d44c49a24d8d2251640d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9149233487831138234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477538758076601737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: isJoin
+  - Type: 4
+    SynchronizeType: 1
+    Name: isTouch
+  - Type: 9
+    SynchronizeType: 1
+    Name: animation1
+  - Type: 9
+    SynchronizeType: 1
+    Name: animation2
+  - Type: 9
+    SynchronizeType: 1
+    Name: animation3
+  - Type: 9
+    SynchronizeType: 1
+    Name: animation4
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &8814310995499089574
 GameObject:
   m_ObjectHideFlags: 0

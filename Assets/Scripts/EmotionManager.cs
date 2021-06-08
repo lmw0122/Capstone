@@ -79,5 +79,6 @@ public class EmotionManager : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     {
         rect_Joystick.localPosition = Vector3.zero;
         HumanAnimatorController.animationNum = num;
+        // GManager.SetAnimation("animation " + num);
     }
 }

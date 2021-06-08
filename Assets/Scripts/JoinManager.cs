@@ -178,7 +178,6 @@ public class JoinManager : MonoBehaviour
                     if (users["name"].Equals(nicknameIF.text))
                     {
                         connInfoText.text = "중복된 닉네임";
-                        Debug.Log(nicknameIF.text + "는 이미 있는 닉네임입니다.");
                         nicknameChecked = false;
                         return;
                     }

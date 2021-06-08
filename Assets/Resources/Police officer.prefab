@@ -31,7 +31,7 @@ Transform:
   - {fileID: 7868808153431922791}
   - {fileID: 2635064615088514047}
   m_Father: {fileID: 5586889222321830233}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &2636204493720173210
 SkinnedMeshRenderer:
@@ -528,7 +528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1872906776727897050
@@ -702,7 +702,7 @@ Transform:
   m_Children:
   - {fileID: 5744052629315802671}
   m_Father: {fileID: 5586889222321830233}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565822059957494750
 GameObject:
@@ -768,7 +768,7 @@ RectTransform:
   - {fileID: 7620133740977260644}
   - {fileID: 7941559550342832314}
   m_Father: {fileID: 5586889222321830233}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1318,6 +1318,7 @@ GameObject:
   - component: {fileID: -567467943931541946}
   - component: {fileID: 7447175765965599019}
   - component: {fileID: 1450025409847191523}
+  - component: {fileID: 2918667357442409778}
   m_Layer: 0
   m_Name: Police officer
   m_TagString: localplayers
@@ -1336,9 +1337,9 @@ Transform:
   m_LocalPosition: {x: 0.5, y: 0, z: 1.75}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
+  - {fileID: 7149404359321556734}
   - {fileID: 8676804275325185414}
   - {fileID: 6264197917505431164}
-  - {fileID: 7149404359321556734}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1373,7 +1374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603ed53fb8fa81948b2a3bacd326603e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nick: {fileID: 0}
+  tempG: {fileID: 0}
   nickText: {fileID: 0}
   chatBox: {fileID: 9192458704916593417, guid: bbd7b329cea3d324b99e06377d1667ae, type: 3}
   remainTime: 0
@@ -1516,6 +1517,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f4e134d9d44c49a24d8d2251640d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2918667357442409778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099005554458829795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &5381877619507509247
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +2039,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.0000305, y: 9.999985}
+  m_AnchoredPosition: {x: -5, y: 10}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &7651553050031226891
