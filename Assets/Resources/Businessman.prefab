@@ -2067,7 +2067,7 @@ Transform:
   m_GameObject: {fileID: 8477538758076601737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3358644902353012553}
   - {fileID: 6588415684865999192}
@@ -2111,6 +2111,7 @@ MonoBehaviour:
   chatBox: {fileID: 9192458704916593417, guid: bbd7b329cea3d324b99e06377d1667ae, type: 3}
   animator: {fileID: 0}
   remainTime: 0
+  forVOD: {fileID: 0}
 --- !u!114 &8392458936962567355
 MonoBehaviour:
   m_ObjectHideFlags: 0

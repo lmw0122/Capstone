@@ -1212,7 +1212,7 @@ Transform:
   m_GameObject: {fileID: 4614161650316802896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 0, z: 3}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4741454646179820851}
   - {fileID: 8182682130018918481}
@@ -1256,6 +1256,7 @@ MonoBehaviour:
   chatBox: {fileID: 9192458704916593417}
   animator: {fileID: 0}
   remainTime: 0
+  forVOD: {fileID: 0}
 --- !u!114 &-136087467708225684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,7 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ee619a6905e1c4b9c93b8f12741b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 20
+  distance: 5
   height: 0
   heightSmoothLag: 0.3
   centerOffset: {x: 0, y: 0, z: 0}
@@ -1768,7 +1769,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: aaaaaaaaaaaa
 --- !u!1 &6089723288109199277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2550,7 +2551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1967009222402294315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2599,8 +2600,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 54523b3a0a0d6774f9f9a17e4c9c2e68, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: c216808cbfe63a240bef1cde0f9fa0fb, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2622,10 +2623,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 20
+    m_Right: 20
     m_Top: 0
-    m_Bottom: 100
+    m_Bottom: 50
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 0

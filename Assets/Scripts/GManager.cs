@@ -69,7 +69,6 @@ public class GManager : MonoBehaviourPunCallbacks
             this.tempVector = tempVector;
         }
     }
-
     public DatabaseReference reference { get; set; }
 
     public List<string> friendList = new List<string>();
@@ -159,11 +158,6 @@ public class GManager : MonoBehaviourPunCallbacks
             testImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
         }
     }
-    private void GetImage(string mastername)
-    {
-        
-
-    }
     public void ShowMessage()
     {
         string mess = textIF.text.ToString();
@@ -248,7 +242,7 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     private void SpawnPlayer (string prefabname)
     {
-        PhotonNetwork.Instantiate(prefabname, new Vector3(0, 8.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다.
+        PhotonNetwork.Instantiate(prefabname, new Vector3(0, 9.483022f, 0), Quaternion.identity, 0); //플레이어 프리팹을 0,5,0 위치에 생성한다
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -342,7 +336,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public void CreatePrefab()
     {
         Debug.Log("Create position is : " + CreateObject.toCreatePosition);
-        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 8.483022f, CreateObject.toCreatePosition.z), Quaternion.identity);
+        Instantiate(toCreate, new Vector3(CreateObject.toCreatePosition.x, 9.483022f, CreateObject.toCreatePosition.z), Quaternion.identity);
         preCam.enabled = false;
         mainCam.enabled = true;
         mainCanvas.SetActive(true);
