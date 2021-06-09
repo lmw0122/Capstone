@@ -54,6 +54,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        // Cursor.visible = false; 
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 접속
         auth = FirebaseAuth.DefaultInstance;

@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 4658931749581354}
   - component: {fileID: 1969772060682371759}
   - component: {fileID: 2624525068427966980}
+  - component: {fileID: -6850961246489899615}
   m_Layer: 0
   m_Name: prefabs_2
   m_TagString: prefabs
@@ -216,6 +217,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!65 &-6850961246489899615
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164256799080002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1233231551010318
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Net.Sockets;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine.Networking;
 
@@ -37,6 +38,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public static GameObject toCreate;
     public GameObject createCanvas;
     public GameObject mainCanvas;
+    public ToggleGroup toggleGoup;
 
     public GameObject backTemp;
     bool socketReady;
@@ -173,15 +175,11 @@ public class GManager : MonoBehaviourPunCallbacks
                 PV = temppv;
             }
         }
-        if (thisisme)
+        Toggle theActiveToggle = toggleGoup.ActiveToggles().FirstOrDefault();
+        if (thisisme && theActiveToggle.gameObject.name == "Private")
         {
             PV.RPC("showChat", RpcTarget.All, mess);
         }
-        else
-        {
-            Debug.Log("내꺼 찾기 실패");
-        }
-
         //채팅방 위치 초기화 + 스크롤 보이게
         
     }

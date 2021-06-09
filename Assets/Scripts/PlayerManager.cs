@@ -103,7 +103,7 @@ public class PlayerManager : MonoBehaviourPun
 
         }
         tempG.transform.GetChild(0).transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(0, 2f, 0));
-        chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-1f, 2.2f, 0));
+        chatBox.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + new Vector3(-0.7f, 1.7f, 0));
             
     }
 

@@ -16,6 +16,7 @@ public class VODManager : MonoBehaviour
     private static FirebaseStorage storage = FirebaseStorage.DefaultInstance;
     StorageReference storageRef = storage.GetReferenceFromUrl("gs://project-6629124072636312930.appspot.com");
     public InputField keywordIF;
+    public GameObject panel;
 
     public DatabaseReference reference;
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class VODManager : MonoBehaviour
     }
     public void Search()
     {
+        panel.SetActive(true);
         string keyword = keywordIF.text;
         int stopIndex = 0;
         storageRef = storage.GetReferenceFromUrl(GetUrl(keyword));
