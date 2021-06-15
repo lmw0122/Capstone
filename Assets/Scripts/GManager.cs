@@ -58,6 +58,8 @@ public class GManager : MonoBehaviourPunCallbacks
     public ScrollRect chatRect;
     public GameObject scrollRect;
     public GameObject scrollRect2;
+
+    string tempIP;
     public class PrefabInfo
     {
         public Vector3 tempVector;
@@ -100,6 +102,7 @@ public class GManager : MonoBehaviourPunCallbacks
                 SpawnPlayer(snapshot.Value.ToString());
             }
         });
+        
         URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
@@ -112,6 +115,26 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             loadPrefabs();
         }
+        reference.Child("auto").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.Log("사진 불러오기 실패");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
+                foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
+                {
+                    string tempName = (string)data.Key;
+                    if (tempName.Equals(LoginManager.nickname))
+                    {
+                        tempIP = (string)data.Child("ipAddress").Value;
+                        Debug.Log("ip is " + tempIP);
+                    }
+                }
+            }
+        });
 
     }
     public void setUserinfo()
@@ -214,13 +237,11 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         if (socketReady) return;
 
-        
-        string host = LoginManager.ipAdd;
         int port = 7777;
 
         try
         {
-            socket = new TcpClient(host, port);
+            socket = new TcpClient(tempIP, port);
             stream = socket.GetStream();
             writer = new StreamWriter(stream);
             reader = new StreamReader(stream);
@@ -244,9 +265,9 @@ public class GManager : MonoBehaviourPunCallbacks
     
     public void ClickVOD()
     {
+        findMe();
         PV.RPC("sendRPC", RpcTarget.All);
-        Debug.Log("rpc sended");
-        SendURL();
+       
     }
     private void SpawnPlayer (string prefabname)
     {
@@ -274,22 +295,35 @@ public class GManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        savePrefabs();
+        //savePrefabs();
     }
     public void savePrefabs()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
-        reference = FirebaseDatabase.DefaultInstance.GetReference("prefabs/"+LoginManager.nickname); // prefabs 위치 참조
+        reference = FirebaseDatabase.DefaultInstance.GetReference("prefabs/"); // prefabs 위치 참조
+        reference.Child(LoginManager.nickname).RemoveValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if(task.IsFaulted)
+            {
+                Debug.Log("삭제 실패");
+            }
+            else if(task.IsCompleted)
+            {
+                Debug.Log("삭제 완료");
+            }
+        });
+
         remainPrefabs = null;
         remainPrefabs = GameObject.FindGameObjectsWithTag("prefabs");
         Debug.Log(remainPrefabs.Length);
         for (int i = 0; i < remainPrefabs.Length; i++)
-        { 
+        {
             PrefabInfo remainPrefabInfos = new PrefabInfo(remainPrefabs[i].name, remainPrefabs[i].transform.position, remainPrefabs[i].transform.rotation);
             string json = JsonUtility.ToJson(remainPrefabInfos);
-            reference.Child(i.ToString()).SetRawJsonValueAsync(json);
+            reference.Child(LoginManager.nickname).Child(i.ToString()).SetRawJsonValueAsync(json);
 
         }
+
     }
 
     public void loadPrefabs()
@@ -365,11 +399,11 @@ public class GManager : MonoBehaviourPunCallbacks
         if (tempToD.tag == "prefabs")
         {
             Destroy(tempToD);
-            savePrefabs();
+            
             preCam.enabled = false;
             mainCam.enabled = true;
             mainCanvas.SetActive(true);
-
+            savePrefabs();
 
         }
         else
@@ -402,7 +436,7 @@ public class GManager : MonoBehaviourPunCallbacks
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         
-        FirebaseDatabase.DefaultInstance.GetReference("rooms").GetValueAsync().ContinueWithOnMainThread(task =>
+        FirebaseDatabase.DefaultInstance.GetReference("auto").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {

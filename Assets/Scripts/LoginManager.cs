@@ -44,11 +44,13 @@ public class LoginManager : MonoBehaviourPunCallbacks
     {
         public string email;
         public string password;
+        public string ipAddress;
 
-        public UserInfo(string tempEmail, string tempPassword)
+        public UserInfo(string tempEmail, string tempPassword, string tempIP)
         {
             this.email = tempEmail;
             this.password = tempPassword;
+            this.ipAddress = tempIP;
         }
     }
     // Start is called before the first frame update
@@ -122,7 +124,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
                     Debug.Log(firebaseUser.UserId);
                     FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
                     reference = FirebaseDatabase.DefaultInstance.GetReference("auto/" + nickname); // prefabs 위치 참조
-                    UserInfo tempUser = new UserInfo(idIF.text,passwordIF.text);
+                    UserInfo tempUser = new UserInfo(idIF.text,passwordIF.text,ipIF.text);
                     string json = JsonUtility.ToJson(tempUser);
                     reference.SetRawJsonValueAsync(json);
 

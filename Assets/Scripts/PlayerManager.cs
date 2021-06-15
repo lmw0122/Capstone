@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviourPun
             nickText = tempG.transform.GetChild(0).GetComponent<Text>();
             chatBox = tempG.transform.GetChild(1).gameObject;
             nickText.text = PhotonNetwork.NickName;
-            nickText.color = Color.blue;
+            nickText.color = Color.white;
         }
         else
         {
@@ -74,7 +74,7 @@ public class PlayerManager : MonoBehaviourPun
         chatBox.GetComponentInChildren<Text>().text = message;
         Debug.Log(chatBox.GetComponentInChildren<Text>().text);
 
-        remainTime = 1800 * Time.deltaTime;
+        remainTime = 300 * Time.deltaTime;
     }
     [PunRPC]
     public void sendRPC()
