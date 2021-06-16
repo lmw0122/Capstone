@@ -20,10 +20,13 @@ public class JoinManager : MonoBehaviour
     public InputField idIF;
     public InputField passwordIF;
     public InputField passwordCheckIF;
+    public InputField ipIF;
+
     public GameObject LoginCanvas;
     public GameObject JoinCanvas;
     public GameObject CharacterSelect;
     public GameObject CharacterConfirm;
+    
 
     public static FirebaseAuth auth;
     public DatabaseReference reference { get; set; }
@@ -33,6 +36,7 @@ public class JoinManager : MonoBehaviour
     private static string UID = "";
 
     public string imageURL;
+    
     class User
     {
         public string email;
@@ -46,6 +50,21 @@ public class JoinManager : MonoBehaviour
             this.image = image;
         }
     }
+
+    public class UserInfo
+    {
+        public string email;
+        public string password;
+        public string ipAddress;
+
+        public UserInfo(string tempEmail, string tempPassword, string tempIP)
+        {
+            this.email = tempEmail;
+            this.password = tempPassword;
+            this.ipAddress = tempIP;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,6 +138,13 @@ public class JoinManager : MonoBehaviour
                 Debug.Log(idIF.text + " 로 회원가입 하셨습니다.");
                 Debug.Log(UID);
                 LoginManager.nickname = nicknameIF.text;
+                
+                
+                FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
+                reference = FirebaseDatabase.DefaultInstance.GetReference("auto/" + LoginManager.nickname); // prefabs 위치 참조
+                UserInfo tempUser = new UserInfo(idIF.text, passwordIF.text, ipIF.text);
+                string json = JsonUtility.ToJson(tempUser);
+                reference.SetRawJsonValueAsync(json);
                 CreateChatRoom();
             }
             else

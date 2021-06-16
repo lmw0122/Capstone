@@ -21,7 +21,7 @@ public class SManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ip = LoginManager.ipAdd;
+        //ip = LoginManager.ipAdd;
         URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
         URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
 
@@ -40,7 +40,7 @@ public class SManager : MonoBehaviour
         if (socketReady) return;
 
 
-        string host = ip;
+        string host = "0";
         int port = 7777;
 
         try

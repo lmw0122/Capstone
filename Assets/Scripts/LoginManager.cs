@@ -22,7 +22,7 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public InputField idIF;
     [SerializeField]
     public InputField passwordIF;
-    public InputField ipIF;
+
 
     public static FirebaseAuth auth;
     // 전체적인 구조
@@ -30,33 +30,16 @@ public class LoginManager : MonoBehaviourPunCallbacks
     // 친구 닉네임 검색하면 내 방 유지하면서 나가고 마스터 서버 갔다가 친구 방 이동 -> 뒤로 버튼 누르면 친구 방 나와서 마스터 서버 갔다가 내 닉네임 방으로 돌아옴 
     public static bool isFirst = true;
     int roomIndex = 0;
-    public static string nickname = "";
-    public static string ipAdd = "";
-    public static LoadBalancingClient client;
-    EnterRoomParams roomParams = new EnterRoomParams();
-    EnterRoomParams froomParams = new EnterRoomParams();
+    public static string nickname;
     RoomOptions roomOptions = new RoomOptions();
-    AppSettings appset = new AppSettings();
-    
+
+
     public DatabaseReference reference { get; set; }
 
-    public class UserInfo
-    {
-        public string email;
-        public string password;
-        public string ipAddress;
 
-        public UserInfo(string tempEmail, string tempPassword, string tempIP)
-        {
-            this.email = tempEmail;
-            this.password = tempPassword;
-            this.ipAddress = tempIP;
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {
-        // Cursor.visible = false; 
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 접속
         auth = FirebaseAuth.DefaultInstance;
@@ -67,10 +50,9 @@ public class LoginManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log(isFirst);
-        //connInfoText.text = "마스터에 연결됨";
         connInfoText.text = "환영합니다";
-        
-        if(GManager.fNickname != "") // 2번 경우, fNickname은 내가 마이룸에서 가고 싶은 친구 검색했을 때 그 닉네임
+
+        if (GManager.fNickname != "") // 2번 경우, fNickname은 내가 마이룸에서 가고 싶은 친구 검색했을 때 그 닉네임
         {
             Debug.Log("친구방으로 이동중");
             roomOptions.IsOpen = true;
@@ -80,18 +62,17 @@ public class LoginManager : MonoBehaviourPunCallbacks
 
             PhotonNetwork.JoinOrCreateRoom(GManager.fNickname, roomOptions, null);//fNickname이름과 같은 방으로 이동
         }
-        if(isFirst == false) // 1,3번 경우, 지금은 3번 경우 오류가 나서 다시 내방으로 안돌아가짐(webhook 관련해서 다시 코딩 예정)
+        if (isFirst == false) // 1,3번 경우, 지금은 3번 경우 오류가 나서 다시 내방으로 안돌아가짐(webhook 관련해서 다시 코딩 예정)
         {
             Debug.Log("내방으로 재접속중");
             PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
-            //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임 이름의 방으로 이동
         }
-        
+
     }
 
     public override void OnDisconnected(DisconnectCause cause) // 1,2,3의 경우에 마스터 서버로 접속 못한 경우 자동 실행되는 함수(예외 처리용?)
     {
-        
+
         connInfoText.text = "접속 실패";
 
         PhotonNetwork.ConnectUsingSettings();// 다시 마스터에 접속 시도
@@ -114,26 +95,20 @@ public class LoginManager : MonoBehaviourPunCallbacks
             // 입력받은 ID + 비밀번호로 로그인 인증 실행(비동기)
             auth.SignInWithEmailAndPasswordAsync(idIF.text, passwordIF.text).ContinueWithOnMainThread(
             task =>
-            {
-                connInfoText.text = "로그인 중";
+            {   
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) // 문제 없이 Task 실행되었을 경우
                 {
-                    ipAdd = ipIF.text;
                     FirebaseUser firebaseUser = FirebaseAuth.DefaultInstance.CurrentUser;
                     nickname = firebaseUser.DisplayName;
                     Debug.Log(firebaseUser.UserId);
-                    FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://project-6629124072636312930-default-rtdb.firebaseio.com/");
-                    reference = FirebaseDatabase.DefaultInstance.GetReference("auto/" + nickname); // prefabs 위치 참조
-                    UserInfo tempUser = new UserInfo(idIF.text,passwordIF.text,ipIF.text);
-                    string json = JsonUtility.ToJson(tempUser);
-                    reference.SetRawJsonValueAsync(json);
 
+                    connInfoText.text = "로그인 중";
+                   
                     if (PhotonNetwork.IsConnected) //마스터에 접속되어 있다면
                     {
                         PhotonNetwork.NickName = nickname;
                         connInfoText.text = "방으로 이동중";
                         PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null);
-                        //PhotonNetwork.JoinOrCreateRoom(nickname, roomOptions, null); // 내 닉네임으로 방을 만들고 들어올 수 있는 최대 인원수는 4명이다. -> 그 이후에 접속
                     }
                     else //마스터에 접속 안되어 있다면
                     {
@@ -151,7 +126,6 @@ public class LoginManager : MonoBehaviourPunCallbacks
         );
         }
     }
-    
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("방 만들기 실패");

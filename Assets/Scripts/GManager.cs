@@ -59,7 +59,7 @@ public class GManager : MonoBehaviourPunCallbacks
     public GameObject scrollRect;
     public GameObject scrollRect2;
 
-    string tempIP;
+    public static string tempIP;
     public class PrefabInfo
     {
         public Vector3 tempVector;
@@ -115,26 +115,7 @@ public class GManager : MonoBehaviourPunCallbacks
         {
             loadPrefabs();
         }
-        reference.Child("auto").GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted || task.IsCanceled)
-            {
-                Debug.Log("사진 불러오기 실패");
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
-                foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
-                {
-                    string tempName = (string)data.Key;
-                    if (tempName.Equals(LoginManager.nickname))
-                    {
-                        tempIP = (string)data.Child("ipAddress").Value;
-                        Debug.Log("ip is " + tempIP);
-                    }
-                }
-            }
-        });
+        
 
     }
     public void setUserinfo()
@@ -208,17 +189,26 @@ public class GManager : MonoBehaviourPunCallbacks
     }
     public void ConnetToServer()
     {
-        
-        players = GameObject.FindGameObjectsWithTag("localplayers");
-        for (int i = 0; i < players.Length; i++)
+        reference.Child("auto").GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            PhotonView temppv = players[i].GetComponent<PhotonView>();
-            if (temppv.IsMine)
+            if (task.IsFaulted || task.IsCanceled)
             {
-                PV = temppv;
+                Debug.Log("사진 불러오기 실패");
             }
-        }
-        Debug.Log("meme");
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
+                foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
+                {
+                    string tempName = (string)data.Key;
+                    if (tempName.Equals(LoginManager.nickname))
+                    {
+                        tempIP = (string)data.Child("ipAddress").Value;
+                        Debug.Log("ip is " + tempIP);
+                    }
+                }
+            }
+        });
     }
 
     public void findMe()
