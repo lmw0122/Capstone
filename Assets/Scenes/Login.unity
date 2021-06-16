@@ -248,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3226188985226872204, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 103.74999
+      value: 103.51351
       objectReference: {fileID: 0}
     - target: {fileID: 3226188985226872204, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -256,7 +256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3226188985226872204, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -350
+      value: -349.99997
       objectReference: {fileID: 0}
     - target: {fileID: 3418035539718398350, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_RootOrder
@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3418035539718398350, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 3418035539718398350, guid: 6a750f28c9590b24ab035a416485fde3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -773,7 +773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2575211308770643031, guid: 62bdc5a5f4b5946b7b4e909f9d2ff6bd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 2575211308770643031, guid: 62bdc5a5f4b5946b7b4e909f9d2ff6bd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1738,15 +1738,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.96792054, g: 0.9716981, b: 0.88461196, a: 1}
+  m_Color: {r: 0.67058825, g: 0.98039216, b: 0.96862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 75a27e20e861d8e4ba5836ab0dc55a35, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3600,7 +3600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5423208331230355946, guid: ba42978d5ba75409db5bcb64d020b520, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 5423208331230355946, guid: ba42978d5ba75409db5bcb64d020b520, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4616,7 +4616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9146129391841136435, guid: d9731af58c0154437b434b721cac6179, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 9146129391841136435, guid: d9731af58c0154437b434b721cac6179, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4972,6 +4972,7 @@ MonoBehaviour:
   passwordCheckText: {fileID: 345918136}
   passwordText: {fileID: 1852799859}
   idIF: {fileID: 173243729}
+  ipIF: {fileID: 1756342272}
   passwordIF: {fileID: 550290507}
   passwordCheckIF: {fileID: 329716881}
   LoginCanvas: {fileID: 1304756482}
@@ -5950,7 +5951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5586889222321830233, guid: 9023373da3df2474ab503e9bc9293037, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 5586889222321830233, guid: 9023373da3df2474ab503e9bc9293037, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6348,7 +6349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163735478664938624, guid: 5a7a7cd831c6e4a50a914e705d758a71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -225.5
+      value: -195.2
       objectReference: {fileID: 0}
     - target: {fileID: 7163735478664938624, guid: 5a7a7cd831c6e4a50a914e705d758a71, type: 3}
       propertyPath: m_LocalPosition.z
