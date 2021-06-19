@@ -103,8 +103,6 @@ public class GManager : MonoBehaviourPunCallbacks
             }
         });
         
-        URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname;
-        URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname;
         //미리 만들어 놓은 player 프리팹을 소환하는 함수
         
     }
@@ -187,28 +185,9 @@ public class GManager : MonoBehaviourPunCallbacks
         //채팅방 위치 초기화 + 스크롤 보이게
         
     }
-    public void ConnetToServer()
+    public void ConnectToServer()
     {
-        reference.Child("auto").GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted || task.IsCanceled)
-            {
-                Debug.Log("사진 불러오기 실패");
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result; // users의 쿼리 결과를 snapshot으로 받아옴
-                foreach (DataSnapshot data in snapshot.Children) // snapshot의 각 하위 개체들에 적용
-                {
-                    string tempName = (string)data.Key;
-                    if (tempName.Equals(LoginManager.nickname))
-                    {
-                        tempIP = (string)data.Child("ipAddress").Value;
-                        Debug.Log("ip is " + tempIP);
-                    }
-                }
-            }
-        });
+        
     }
 
     public void findMe()
@@ -227,36 +206,54 @@ public class GManager : MonoBehaviourPunCallbacks
     {
         if (socketReady) return;
 
-        int port = 7777;
-
-        try
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        reference.Child("auto").Child(LoginManager.nickname).GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            socket = new TcpClient(tempIP, port);
-            stream = socket.GetStream();
-            writer = new StreamWriter(stream);
-            reader = new StreamReader(stream);
-            Debug.Log("연결 성공");
-            infoText.text = "연결 성공";
-            socketReady = true;
-        }
-        catch (Exception e)
-        {
-            Debug.Log($"소켓 에러 : {e.Message}");
-        }
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                Debug.Log("nickname is " + LoginManager.nickname);
+                tempIP = (string)snapshot.Child("ipAddress").Value;// users의 쿼리 결과를 snapshot으로 받아옴
+                Debug.Log("ip is " + tempIP);
+                
+                int port = 7777;
 
-        URLforme = URLforme + "/" + PhotonNetwork.CurrentRoom.Name;
-        URLforsend = URLforsend + "/" + PhotonNetwork.CurrentRoom.Name;
-        Debug.Log("URL : " + URLforsend);
-        writer.WriteLine(URLforsend);
-        writer.Flush();
+                try
+                {
+                    socket = new TcpClient(tempIP, port);
+                    stream = socket.GetStream();
+                    writer = new StreamWriter(stream);
+                    reader = new StreamReader(stream);
+                    Debug.Log("연결 성공");
+                    infoText.text = "연결 성공";
+                    socketReady = true;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log($"소켓 에러 : {e.Message}");
+                }
 
-        Application.OpenURL(URLforme);
+                URLforme = "https://project-6629124072636312930.web.app/info/" + LoginManager.nickname + "/" + PhotonNetwork.CurrentRoom.Name;
+                URLforsend = "https://project-6629124072636312930.web.app/main/" + LoginManager.nickname + "/" + PhotonNetwork.CurrentRoom.Name;
+                Debug.Log("URL : " + URLforsend);
+                writer.WriteLine(URLforsend);
+                writer.Flush();
+
+                Application.OpenURL(URLforme);
+            }
+        });
+        
     }
     
     public void ClickVOD()
     {
         findMe();
-        PV.RPC("sendRPC", RpcTarget.All);
+        PV.RPC("sendRPC", RpcTarget.Others);
+        SendURL();
        
     }
     private void SpawnPlayer (string prefabname)
